@@ -16,7 +16,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
     normalize(typeClass, hash) {
         const modifiedHash = hash;
 
-        modifiedHash.description = hash.description.replaceAll(/<[^>]*>/g, '').replaceAll(/(&nbsp;)/g, ' ');
+        modifiedHash.description = hash.description.replaceAll(/<[^>]*>/g, '').replaceAll(/(&nbsp;)/g, ' ').replaceAll(/(&#39;)|(&rsquo;)/g, '\'').replaceAll(/(&quot;)/g, '"');
         modifiedHash.pet_attributes = modifiedHash.pet_attributes.map((attr) => {
             const modifiedAttr = attr;
             let icon;
