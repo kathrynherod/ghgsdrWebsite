@@ -73,7 +73,23 @@
                     flex: 1 1 auto;
                     font-size: 0.875rem;
                     line-height: 1.5;
-                    margin-bottom: 0.5rem;
+                    margin: 0.35rem 0;
+
+                    &.warning {
+                        svg {
+                            color: $warning;
+                        }
+                    }
+                    &.danger {
+                        svg {
+                            color: $danger;
+                        }
+                    }
+                    &.success {
+                        svg {
+                            color: $success;
+                        }
+                    }
                 }
 
                 &__btn {

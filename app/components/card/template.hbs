@@ -2,12 +2,14 @@
 <div class="card__body">
     <div class="card__body__title">{{name}}</div>
     <p class="card__body__text">
-        stuff awesome bio and details coming super soon
+        {{bio}}
     </p>
     {{#each attributes as |attribute|}}
-        <p class="card__body__text">
-            {{fa-icon attribute.icon}} {{attribute.name}}: {{attribute.value}}
-        </p>
+        {{pet-attribute
+            icon=attribute.icon
+            name=attribute.name
+            value=attribute.value
+        }}
     {{/each}}
     <button class="btn btn--block card__body__btn">Read More</button>
 </div>
