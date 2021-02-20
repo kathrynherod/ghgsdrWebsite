@@ -1,0 +1,16 @@
+{{#if loading}}
+    {{loader}}
+{{else}}
+  <ul class="card-container">
+      {{#each dogs as |dog|}}
+          <li class="card__item">
+              {{card
+                  name=dog.name
+                  defaultImage=dog.pet_image
+                  attributes=dog.pet_attributes
+                  gender=dog.sex
+              }}
+          </li>
+      {{/each}}
+  </ul>
+{{/if}}
