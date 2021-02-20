@@ -1,0 +1,93 @@
+.card-container {
+    background-color: #f0f0f0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+
+    .card__item {
+        display: flex;
+        padding: 1rem;
+
+        @media(min-width: 40rem) {
+            width: 50%;
+        }
+        @media(min-width: 56rem) {
+            width: 33.3333%;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.25rem;
+            box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            width: 100%;
+
+            &:hover {
+                .card__image {
+                    filter: contrast(100%);
+                }
+            }
+
+            &__image {
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                border-top-left-radius: 0.25rem;
+                border-top-right-radius: 0.25rem;
+                filter: contrast(70%);
+                overflow: hidden;
+                position: relative;
+                transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+                &::before {
+                    content: "";
+                    display: block;
+                    padding-top: 56.25%; // 16:9 aspect ratio
+                }
+                @media(min-width: 40rem) {
+                    &::before {
+                      padding-top: 66.6%; // 3:2 aspect ratio
+                    }
+                }
+            }
+
+            &__body {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                padding: 1rem;
+
+                &__title {
+                    color: $gray-dark;
+                    font-size: 1.5rem;
+                    font-weight: 300;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                }
+
+                &__text {
+                    flex: 1 1 auto;
+                    font-size: 0.875rem;
+                    line-height: 1.5;
+                    margin-bottom: 0.5rem;
+                }
+
+                &__btn {
+                    background-color: white;
+                    border: 1px solid $gray-light;
+                    border-radius: 0.5rem;
+                    color: $gray-dark;
+                    display: block;
+                    margin-top: 1rem;
+                    padding: 0.5rem;
+                    text-transform: lowercase;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
