@@ -3,8 +3,10 @@ const { Model } = DS;
 
 export default Model.extend({
     age: DS.attr('string'),
+    adoptionStatus: DS.attr('string'),
     current_location_zip: DS.attr('string'),
-    date_of_birth: DS.attr('string'),
+    date_aquired: DS.attr('date'),
+    date_of_birth: DS.attr('date'),
     default_image_id: DS.attr('number'),
     description: DS.attr('string'),
     has_special_need: DS.attr('string'),

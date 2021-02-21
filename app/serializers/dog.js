@@ -16,34 +16,36 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
     normalize(typeClass, hash) {
         const modifiedHash = hash;
 
-        modifiedHash.description = hash.description.replaceAll(/<[^>]*>/g, '').replaceAll(/(&nbsp;)/g, ' ').replaceAll(/(&#39;)|(&rsquo;)/g, '\'').replaceAll(/(&quot;)/g, '"');
         modifiedHash.pet_attributes = modifiedHash.pet_attributes.map((attr) => {
             const modifiedAttr = attr;
             let icon;
+            let index;
 
             switch (attr.name) {
                 case 'Good with Big Dogs': {
                     icon = 'dog'
-
+                    index = 0;
                     break;
                 }
                 case 'Good with Small Dogs': {
                     icon = 'dog'
-
+                    index = 1;
                     break;
                 }
                 case 'Good with Cats': {
                     icon = 'cat'
-
+                    index = 3;
                     break;
                 }
                 case 'Good with Kids': {
                     icon = 'child'
-
+                    index = 2;
                     break;
                 }
                 case 'Adoption Status': {
+                    modifiedHash.adoptionStatus = attr.value;
                     icon = 'check'
+                    index = 4;
 
                     break;
                 }
@@ -51,9 +53,10 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
 
             modifiedAttr.icon = icon;
             modifiedAttr.id = `${attr.id}-${hash.id}`;
+            modifiedAttr.index = index;
 
             return modifiedAttr;
-        });
+        }).sortBy('index');
 
         return this._super(typeClass, modifiedHash)
     },

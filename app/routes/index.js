@@ -10,7 +10,10 @@ export default Route.extend({
     },
 
     setupController(controller, model) {
-        controller.set('dogs', model.toArray());
+        controller.setProperties({
+            adoptableDogs: model.toArray().filterBy('adoptionStatus', 'Available').sortBy('date_aquired'),
+            comingSoonDogs: model.toArray().filterBy('adoptionStatus', 'Coming Soon').sortBy('date_aquired'),
+        });
     },
 
     actions: {

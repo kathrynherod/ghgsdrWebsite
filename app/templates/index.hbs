@@ -1,18 +1,38 @@
 {{#if loading}}
     {{loader}}
 {{else}}
-  {{header}}
-  <ul class="card-container">
-      {{#each dogs as |dog|}}
-          <li class="card__item">
-              {{card
-                  name=dog.name
-                  description=dog.description
-                  defaultImage=dog.pet_image
-                  attributes=dog.pet_attributes
-                  gender=dog.sex
-              }}
-          </li>
-      {{/each}}
-  </ul>
+    {{header}}
+    <ul class="card-container">
+        {{#each adoptableDogs as |dog|}}
+            {{card
+                name=dog.name
+                description=dog.description
+                defaultImage=dog.pet_image
+                attributes=dog.pet_attributes
+                gender=dog.sex
+                launchModal=(action "launchModal")
+            }}
+        {{/each}}
+    </ul>
+    <h1>Dogs Available Soon for Adoption</h1>
+    <ul class="card-container">
+        {{#each comingSoonDogs as |dog|}}
+            {{card
+                name=dog.name
+                description=dog.description
+                defaultImage=dog.pet_image
+                attributes=dog.pet_attributes
+                gender=dog.sex
+                launchModal=(action "launchModal")
+            }}
+        {{/each}}
+    </ul>
+{{/if}}
+
+{{#if showModal}}
+    {{image-modal
+        showModal=showModal
+        modalTitle=modalTitle
+        modalImageUrl=modalImageUrl
+    }}
 {{/if}}

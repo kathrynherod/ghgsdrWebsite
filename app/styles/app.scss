@@ -21,7 +21,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import 'ember-bootstrap/bootstrap';
 @import 'variables.scss';
 @import 'loader.scss';
 @import 'header.scss';
 @import 'cards.scss';
+@import 'image-modal.scss';
