@@ -2,8 +2,42 @@
     {{loader}}
 {{else}}
     {{header}}
+
+    <div class="filter">
+      <h3>Filter Dogs By:</h3>
+
+      {{#bs-form
+        as |form|
+      }}
+          {{form.element
+              controlType="checkbox"
+              label="Good with Big Dogs"
+              property="goodWithBigDogs"
+              onChange=(action "toggleGoodWithBigDogs")
+          }}
+          {{form.element
+              controlType="checkbox"
+              label="Good with Small Dogs"
+              property="goodWithSmallDogs"
+              onChange=(action "toggleGoodWithSmallDogs")
+          }}
+          {{form.element
+              controlType="checkbox"
+              label="Good with Kids"
+              property="goodWithKids"
+              onChange=(action "toggleGoodWithKids")
+          }}
+          {{form.element
+              controlType="checkbox"
+              label="Good with Cats"
+              property="goodWithCats"
+              onChange=(action "toggleGoodWithCats")
+          }}
+      {{/bs-form}}
+    </div>
+
     <ul class="card-container">
-        {{#each adoptableDogs as |dog|}}
+        {{#each filteredDogs as |dog|}}
             {{card
                 name=dog.name
                 description=dog.description
@@ -14,7 +48,11 @@
             }}
         {{/each}}
     </ul>
-    <h1>Dogs Available Soon for Adoption</h1>
+
+    <div class="divider">
+      <h1>Dogs Available Soon for Adoption</h1>
+    </div>
+
     <ul class="card-container">
         {{#each comingSoonDogs as |dog|}}
             {{card

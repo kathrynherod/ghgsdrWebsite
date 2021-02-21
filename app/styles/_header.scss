@@ -3,29 +3,26 @@
     background-color: #002b55;
     display: flex;
     flex-flow: row wrap;
-    height: 5vh;
+    height: 6.5vh;
 
     img {
         flex: 1;
         order: 1;
         max-height: 100%;
         width: auto;
+
+        @media(max-width: 770px) {
+            display: none;
+        }
     }
 
     .title {
         align-self: center;
         color: white;
-        //font-size: 1.55rem;
         flex: 5 0px;
         order: 2;
         text-align: center;
         padding: 0.5rem 1rem;
-
-        // @media(min-width: 27rem) {
-
-        //     font-size: 1rem;
-
-        // }
     }
 }
 
