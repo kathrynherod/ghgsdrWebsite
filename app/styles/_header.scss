@@ -2,14 +2,9 @@
     align-items: stretch;
     background-color: #002b55;
     display: flex;
-    flex-flow: row wrap;
-    height: 6.5vh;
 
     img {
-        flex: 1;
-        order: 1;
-        max-height: 100%;
-        width: auto;
+        max-width: 15rem;
 
         @media(max-width: 770px) {
             display: none;
@@ -19,7 +14,6 @@
     .title {
         align-self: center;
         color: white;
-        flex: 5 0px;
         order: 2;
         text-align: center;
         padding: 0.5rem 1rem;
