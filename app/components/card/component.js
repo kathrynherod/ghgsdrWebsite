@@ -22,5 +22,9 @@ export default Component.extend({
         launchModal(dogName, imageUrl) {
             this.launchModal(dogName, imageUrl);
         },
+
+        // readMore(dog) {
+        //     this.readMore(dog);
+        // }
     },
 })

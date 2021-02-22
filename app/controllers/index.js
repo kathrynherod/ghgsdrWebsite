@@ -58,5 +58,9 @@ export default Controller.extend({
         toggleGoodWithCats() {
             this.toggleProperty('goodWithCats');
         },
+
+        readMore(dog) {
+            this.transitionToRoute('dog', dog.id);
+        },
     },
 });

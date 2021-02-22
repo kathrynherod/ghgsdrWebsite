@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-
+import $ from 'jquery';
 
 export default Route.extend({
     store: service(),
@@ -10,9 +10,26 @@ export default Route.extend({
     },
 
     setupController(controller, model) {
+        const adoptableDogs = [];
+        const comingSoonDogs = [];
+        const adoptionPendingDogs = [];
+
+        model.toArray().forEach((dog) => {
+            const { status, adoptionStatus } = dog.getProperties('status', 'adoptionStatus');
+
+            if (status === 'Pending Adoption' || status === 'Fostered - Pending Adoption') {
+                adoptionPendingDogs.push(dog);
+            } else if (status === 'Fostered' && adoptionStatus === 'Available') {
+                adoptableDogs.push(dog);
+            } else {
+                comingSoonDogs.push(dog);
+            }
+        });
+
         controller.setProperties({
-            adoptableDogs: model.toArray().filterBy('adoptionStatus', 'Available').sortBy('date_aquired'),
-            comingSoonDogs: model.toArray().filterBy('adoptionStatus', 'Coming Soon').sortBy('date_aquired'),
+            adoptableDogs: adoptableDogs.sortBy('date_aquired'),
+            comingSoonDogs: comingSoonDogs.sortBy('date_aquired'),
+            adoptionPendingDogs,
         });
     },
 
@@ -23,6 +40,7 @@ export default Route.extend({
             controller.set('loading', true);
 
             transition.finally(() => {
+                $("#initialPageLoading").remove();
                 controller.set('loading', false);
             });
         },

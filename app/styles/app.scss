@@ -1,9 +1,6 @@
-$gray-darker: #444444;
-$gray-dark: #696969;
-$gray: #999999;
-$gray-light: #cccccc;
-$gray-lighter: #ececec;
-$gray-lightest: lighten($gray-lighter,4%);
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import 'ember-bootstrap/bootstrap';
+@import 'variables.scss';
 
 *,
 *::before,
@@ -12,6 +9,7 @@ $gray-lightest: lighten($gray-lighter,4%);
 }
 
 .ember-application {
+    background-color: $backgroundColor;
     margin: 0;
     font-family: 'Roboto Slab', sans-serif;
 }
@@ -21,25 +19,8 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-.filter {
-    h3 {
-        margin-top: 1rem;
-    }
-}
-
-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 1rem;
-
-    .form-check {
-        margin-right: 1rem;
-    }
-}
-
 .divider {
-    background-color: #002b55;
+    background-color: $ghgsdrBlue;
 
     h1 {
         color: white;
@@ -47,10 +28,8 @@ form {
     }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
-@import 'ember-bootstrap/bootstrap';
-@import 'variables.scss';
+
 @import 'loader.scss';
-@import 'header.scss';
+@import 'navbar.scss';
 @import 'cards.scss';
 @import 'image-modal.scss';

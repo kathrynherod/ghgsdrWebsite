@@ -1,0 +1,21 @@
+{{#if loading}}
+    {{loader}}
+{{else}}
+    {{navbar
+        title=model.name
+        hideFilter=true
+    }}
+    {{#each model.images as |image|}}
+        <div class="card" style="width: 18rem;">
+            <img src={{image.url}} class="card-img-top" alt={{model.name}}>
+        </div>
+    {{/each}}
+    {{model.description}}
+    {{#each model.pet_attributes as |attribute|}}
+        {{pet-attribute
+            icon=attribute.icon
+            name=attribute.name
+            value=attribute.value
+        }}
+    {{/each}}
+{{/if}}
