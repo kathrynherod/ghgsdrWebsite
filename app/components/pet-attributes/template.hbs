@@ -1,0 +1,19 @@
+{{#each attributes as |attribute index|}}
+    {{#if showIcon}}
+        {{#if attribute.icon}}
+            {{pet-attributes/pet-attribute
+                icon=attribute.icon
+                name=attribute.name
+                value=attribute.value
+            }}
+        {{/if}}
+    {{else}}
+        <tr row={{index}}>
+            {{pet-attributes/pet-attribute
+                icon=null
+                name=attribute.name
+                value=attribute.value
+            }}
+        </tr>
+    {{/if}}
+{{/each}}

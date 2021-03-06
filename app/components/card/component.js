@@ -9,7 +9,7 @@ export default Component.extend({
     bio: computed('description', function() {
         const description = this.get('description');
 
-        return htmlSafe(`${description.substring(0, 100)}...`);
+        return htmlSafe(`${description[0].substring(0, 100)}...`);
     }),
 
     imageStyle: computed('defaultImage', function() {
@@ -22,9 +22,5 @@ export default Component.extend({
         launchModal(dogName, imageUrl) {
             this.launchModal(dogName, imageUrl);
         },
-
-        // readMore(dog) {
-        //     this.readMore(dog);
-        // }
     },
 })

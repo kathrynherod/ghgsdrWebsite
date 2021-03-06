@@ -2,8 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-    tagName: 'p',
-    classNames: ['card__body__text'],
+    classNames: ['attribute'],
     classNameBindings: ['iconColor'],
 
     iconColor: computed('value', function() {

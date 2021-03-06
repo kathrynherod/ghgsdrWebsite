@@ -2,21 +2,44 @@
 @import 'ember-bootstrap/bootstrap';
 @import 'variables.scss';
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-.ember-application {
+body.ember-application {
     background-color: $backgroundColor;
-    margin: 0;
     font-family: 'Roboto Slab', sans-serif;
+    height: 100vh;
+    margin: 0;
+    width: 100vw;
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     text-align: center;
+}
+
+.dog-content {
+    display: flex;
+    padding: 2rem;
+
+    .stats {
+        margin-right: 2rem;
+
+        table.attributes-table {
+            border: 1px solid black;
+            min-width: 250px;
+
+            tr:nth-child(odd) {
+                background: $gray-light;
+            }
+
+            .attribute {
+                margin: 0.5rem 1rem;
+
+                td.name {
+                    font-weight: bold;
+                    margin-right: 0.25rem;
+                }
+            }
+        }
+    }
 }
 
 .divider {
@@ -28,8 +51,39 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+// @media(min-width: 616px) {
+//     .dog-content {
+//         align-items: center;
+//         flex-direction: column;
+//     }
+
+//     .stats {
+//         order: 2;
+//         margin-bottom: 2rem;
+//         margin-right: 0;
+
+//         table.attributes-table {
+//             border: 1px solid black;
+//             min-width: 250px;
+
+//             tr:nth-child(odd) {
+//                 background: $gray-light;
+//             }
+
+//             .attribute {
+//                 margin: 0.5rem 1rem;
+
+//                 td.name {
+//                     font-weight: bold;
+//                     margin-right: 0.25rem;
+//                 }
+//             }
+//         }
+//     }
+// }
 
 @import 'loader.scss';
 @import 'navbar.scss';
 @import 'cards.scss';
 @import 'image-modal.scss';
+@import 'image-gallery.scss';

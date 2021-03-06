@@ -6,7 +6,9 @@ export default Route.extend({
     store: service(),
 
     model(params) {
-        return this.store.query('dog', { status: 'fostered'})
+        const existingRecord = this.store.peekRecord('dog', params.id);
+
+        return existingRecord ? existingRecord : this.store.query('dog', { status: 'fostered'})
             .then((dogs) => dogs.findBy('id', params.id));
     },
 

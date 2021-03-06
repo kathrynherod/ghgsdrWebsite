@@ -39,6 +39,7 @@
                 background-size: cover;
                 border-top-left-radius: 0.25rem;
                 border-top-right-radius: 0.25rem;
+                cursor: pointer;
                 filter: contrast(70%);
                 overflow: hidden;
                 position: relative;
@@ -63,31 +64,38 @@
 
                 &__title {
                     color: $gray-dark;
-                    font-size: 1.5rem;
-                    font-weight: 300;
-                    letter-spacing: 2px;
+                    font-size: 2rem;
+                    font-weight: 400;
                     text-transform: uppercase;
                 }
 
                 &__text {
                     flex: 1 1 auto;
-                    font-size: 0.875rem;
+                    font-size: 1rem;
                     line-height: 1.5;
                     margin: 0.35rem 0;
 
-                    &.warning {
+                    .attribute {
                         svg {
-                            color: $warning;
+                            height: 1rem;
+                            margin-right: 0.25rem;
+                            width: 1rem;
                         }
-                    }
-                    &.danger {
-                        svg {
-                            color: $danger;
+
+                        &.warning {
+                            svg {
+                                color: $warning;
+                            }
                         }
-                    }
-                    &.success {
-                        svg {
-                            color: $success;
+                        &.danger {
+                            svg {
+                                color: $danger;
+                            }
+                        }
+                        &.success {
+                            svg {
+                                color: $success;
+                            }
                         }
                     }
                 }
