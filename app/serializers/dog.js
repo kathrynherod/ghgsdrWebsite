@@ -24,10 +24,6 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
             value: modifiedHash.sex,
         });
         modifiedHash.pet_attributes.push({
-            name: 'Age',
-            value: modifiedHash.numerical_age,
-        });
-        modifiedHash.pet_attributes.push({
             name: 'Weight',
             value: modifiedHash.weight,
         });
@@ -39,6 +35,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
 
             switch (attr.name) {
                 case 'Sex': {
+                    attr.id = 0;
                     index = 0;
                     break;
                 }
@@ -47,6 +44,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
                     break;
                 }
                 case 'Weight': {
+                    attr.id = 2;
                     index = 2;
                     break;
                 }
@@ -94,6 +92,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
                     break;
                 }
                 case 'Location': {
+                    modifiedAttr.value = attr.value ? attr.value : 'Houston'
                     index = 11;
                     break;
                 }

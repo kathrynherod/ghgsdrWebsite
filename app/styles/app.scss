@@ -15,30 +15,11 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-.dog-content {
-    display: flex;
-    padding: 2rem;
+.row {
+    margin: 2rem;
 
-    .stats {
-        margin-right: 2rem;
-
-        table.attributes-table {
-            border: 1px solid black;
-            min-width: 250px;
-
-            tr:nth-child(odd) {
-                background: $gray-light;
-            }
-
-            .attribute {
-                margin: 0.5rem 1rem;
-
-                td.name {
-                    font-weight: bold;
-                    margin-right: 0.25rem;
-                }
-            }
-        }
+    .bio {
+        font-size: 1.25rem;
     }
 }
 
@@ -50,37 +31,6 @@ h1, h2, h3, h4, h5, h6 {
         padding: 0.5rem;
     }
 }
-
-// @media(min-width: 616px) {
-//     .dog-content {
-//         align-items: center;
-//         flex-direction: column;
-//     }
-
-//     .stats {
-//         order: 2;
-//         margin-bottom: 2rem;
-//         margin-right: 0;
-
-//         table.attributes-table {
-//             border: 1px solid black;
-//             min-width: 250px;
-
-//             tr:nth-child(odd) {
-//                 background: $gray-light;
-//             }
-
-//             .attribute {
-//                 margin: 0.5rem 1rem;
-
-//                 td.name {
-//                     font-weight: bold;
-//                     margin-right: 0.25rem;
-//                 }
-//             }
-//         }
-//     }
-// }
 
 @import 'loader.scss';
 @import 'navbar.scss';
