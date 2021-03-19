@@ -9,6 +9,7 @@ export default Component.extend({
         const value = this.get('value');
 
         switch (value) {
+            case 'Older Kids':
             case 'Not Sure': {
                 return 'warning';
             }

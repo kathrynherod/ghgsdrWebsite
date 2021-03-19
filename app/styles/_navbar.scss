@@ -1,12 +1,12 @@
-nav.navbar {
-    background-color: $ghgsdrBlue;
-    height: 6rem;
-    justify-content: space-between;
+.navbar {
+    background-color: white;
+    justify-content: space-around;
+    padding: 1rem 3rem 1.5rem;
 
     .navbar-brand {
         img {
             border-radius: 2%;
-            max-width: 12rem;
+            max-width: 10rem;
         }
 
         @media(max-width: 770px) {
@@ -15,7 +15,7 @@ nav.navbar {
     }
 
     .navbar-text {
-        color: white;
+        color: $ghgsdrBlue;
         font-size: 1.5rem;
         margin: auto;
 
@@ -32,12 +32,12 @@ nav.navbar {
         flex-grow: unset;
     }
     .dropdown {
-        border: 1px solid white;
+        border: 1px solid $ghgsdrBlue;
         border-radius: 4px;
         padding: 0.5rem;
 
         a {
-            color: white;
+            color: $ghgsdrBlue;
             text-decoration: none;
         }
 

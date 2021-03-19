@@ -17,7 +17,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
         const modifiedHash = hash;
 
         modifiedHash.description = modifiedHash.description.match(/<p>.*?<\/p>/g) ||
-            ["I don't have a bio yet, but keep checking back for more details about me!"];
+            ["<p>I don't have a bio yet, but keep checking back for more details about me!</p>"];
 
         modifiedHash.pet_attributes.push({
             name: 'Sex',
@@ -25,7 +25,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
         });
         modifiedHash.pet_attributes.push({
             name: 'Weight',
-            value: modifiedHash.weight,
+            value: modifiedHash.weight || 'unknown',
         });
 
         modifiedHash.pet_attributes = modifiedHash.pet_attributes.map((attr) => {

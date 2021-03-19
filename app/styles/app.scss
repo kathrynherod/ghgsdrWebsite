@@ -32,6 +32,9 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+p:not(last-child) {
+    margin-bottom: 1.5rem;
+}
 @import 'loader.scss';
 @import 'navbar.scss';
 @import 'cards.scss';

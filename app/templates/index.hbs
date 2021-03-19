@@ -2,13 +2,15 @@
     {{loader}}
 {{else}}
     {{navbar
-        title="Dogs Available for Adoption"
+        title=""
         toggleGoodWithBigDogs=(action "toggleGoodWithBigDogs")
         toggleGoodWithSmallDogs=(action "toggleGoodWithSmallDogs")
         toggleGoodWithKids=(action "toggleGoodWithKids")
         toggleGoodWithCats=(action "toggleGoodWithCats")
     }}
-
+    <div class="divider">
+            <h1>Dogs Available for Adoption</h1>
+        </div>
     <div class="content">
         <ul class="card-container">
             {{#each filteredDogs as |dog|}}
