@@ -27,12 +27,6 @@
             overflow: hidden;
             width: 100%;
 
-            &:hover {
-                .card__image {
-                    filter: contrast(100%);
-                }
-            }
-
             &__image {
                 background-position: center center;
                 background-repeat: no-repeat;
@@ -40,10 +34,10 @@
                 border-top-left-radius: 0.25rem;
                 border-top-right-radius: 0.25rem;
                 cursor: pointer;
-                filter: contrast(70%);
                 overflow: hidden;
                 position: relative;
-                transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+                transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);
+                zoom: 50%;
                 &::before {
                     content: "";
                     display: block;

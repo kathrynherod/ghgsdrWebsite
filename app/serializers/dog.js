@@ -23,9 +23,20 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
             name: 'Sex',
             value: modifiedHash.sex,
         });
+
+        modifiedHash.pet_attributes = modifiedHash.pet_attributes.filter((attr) => attr.name !== 'Age');
+        let age = modifiedHash.numerical_age.split(',')[0];
+
+        if (age === '1 years') {
+            age = '1 year'
+        }
+
         modifiedHash.pet_attributes.push({
             name: 'Weight',
             value: modifiedHash.weight || 'unknown',
+        }, {
+            name: 'Age',
+            value: age,
         });
 
         modifiedHash.pet_attributes = modifiedHash.pet_attributes.map((attr) => {

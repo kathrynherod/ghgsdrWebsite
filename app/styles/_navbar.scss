@@ -8,10 +8,6 @@
             border-radius: 2%;
             max-width: 10rem;
         }
-
-        @media(max-width: 770px) {
-            display: none;
-        }
     }
 
     .navbar-text {
@@ -21,6 +17,7 @@
 
         &.large {
             font-size: 3rem;
+
         }
 
         @media (max-width: 472px) {
@@ -30,6 +27,9 @@
 
     .navbar-collapse {
         flex-grow: unset;
+    }
+    .filter {
+        min-width: 7.25rem;
     }
     .dropdown {
         border: 1px solid $ghgsdrBlue;
@@ -65,6 +65,5 @@
         align-items: center;
         flex-direction: column;
         flex-wrap: unset;
-        height: 7rem;
     }
 }
