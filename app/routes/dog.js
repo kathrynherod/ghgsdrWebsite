@@ -12,6 +12,10 @@ export default Route.extend({
             .then((dogs) => dogs.findBy('id', params.id));
     },
 
+    afterModel(model) {
+        $(document).attr('title', `${model.get('name')} - GHGSDR`);
+    },
+
     setupController(controller, model) {
         controller.set('model', model);
     },

@@ -41,6 +41,7 @@ export default Route.extend({
 
             transition.finally(() => {
                 $("#initialPageLoading").remove();
+                $(document).attr('title', `GHGSDR Dogs Available for Adoption`);
                 controller.set('loading', false);
             });
         },
