@@ -22,7 +22,7 @@ export default Controller.extend({
 
     actions: {
         launchModal(dogName, imageUrl, index) {
-            gtag('event', `${dogName}-image-clicked`, {
+            gtag('event', `${dogName}__image-${index}-clicked`, {
                 'event_category': 'engagement',
                 'event_label': imageUrl,
                 'value': index,

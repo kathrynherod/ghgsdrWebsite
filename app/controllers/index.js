@@ -36,7 +36,7 @@ export default Controller.extend({
 
     actions: {
         launchModal(dogName, imageUrl) {
-            gtag('event', 'image-clicked-from-index', {
+            gtag('event', `${dogName}__image__clicked-from-index`, {
                 'event_category': 'engagement',
                 'event_label': dogName,
             });
@@ -64,7 +64,7 @@ export default Controller.extend({
         },
 
         readMore(dog) {
-            gtag('event', 'read-more-clicked', {
+            gtag('event', `${dog.get('name')}__read-more-clicked`, {
                 'event_category': 'engagement',
                 'event_label': dog.get('name'),
             });
