@@ -24,6 +24,14 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
             value: modifiedHash.sex,
         });
 
+        modifiedHash.youTubeURLS = [];
+
+        modifiedHash.youtube_urls.forEach((url) => {
+            if (url) {
+                modifiedHash.youTubeURLS.push(url.replace('watch?v=', 'embed/'));
+            }
+        });
+
         modifiedHash.pet_attributes = modifiedHash.pet_attributes.filter((attr) => attr.name !== 'Age');
         let age = modifiedHash.numerical_age.split(',')[0];
 

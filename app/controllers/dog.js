@@ -14,8 +14,19 @@ export default Controller.extend({
         return safeBios;
     }),
 
+    showVideos: computed('model.youTubeURLS', function() {
+        const youTubeURLS = this.get('model.youTubeURLS');
+
+        return youTubeURLS && youTubeURLS.length > 0;
+    }),
+
     actions: {
-        launchModal(dogName, imageUrl) {
+        launchModal(dogName, imageUrl, index) {
+            gtag('event', `${dogName}-image-clicked`, {
+                'event_category': 'engagement',
+                'event_label': imageUrl,
+                'value': index,
+            });
             this.setProperties({
                 showModal: true,
                 modalImageUrl: imageUrl,

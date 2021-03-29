@@ -3,6 +3,7 @@ const { Model } = DS;
 
 export default Model.extend({
     age: DS.attr('string'),
+    acquired_by: DS.attr('string'),
     adoptionStatus: DS.attr('string'),
     current_location_zip: DS.attr('string'),
     date_aquired: DS.attr('date'),
@@ -33,6 +34,6 @@ export default Model.extend({
     updated_at: DS.attr('string'),
     url_id: DS.attr('string'),
     weight: DS.attr('string'),
-    youtube_url: DS.attr('string'),
-    //youtube_urls: DS.hasMany('youtube-url', { async: false })
+    where_was_pet_originally_found: DS.attr('string'),
+    youTubeURLS: DS.attr({ async: false }),
 });

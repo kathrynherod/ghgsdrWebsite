@@ -29,7 +29,13 @@
         <div class="divider">
             <h1>Dogs Available Soon for Adoption</h1>
         </div>
-
+        <div class="info">
+            <p>
+                Dogs listed below are NOT currently ready for adoption.
+                If you are interested any of the dogs below, please email me to let me know.
+                I will forward your information to the foster AFTER they are available for adoption.
+            </p>
+        </div>
         <ul class="card-container">
             {{#each comingSoonDogs as |dog|}}
                 {{card
@@ -46,6 +52,14 @@
 
         <div class="divider">
             <h1>Dogs Pending Adoption</h1>
+        </div>
+
+        <div class="info">
+            <p>
+                Dogs listed below are NOT currently available for adoption.
+                They have gone home with an adopter for a two week trial. If you are interested in any of these dogs,
+                you may let me know, and if the adoption does not work out, I will be in touch.
+            </p>
         </div>
 
         <ul class="card-container">

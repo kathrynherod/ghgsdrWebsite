@@ -1,0 +1,28 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dog Name</th>
+            <th scope="col">Intake Date</th>
+            <th scope="col">Age</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Owner/Shelter</th>
+            <th scope="col">Intake Person</th>
+            <th scope="col">HW Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each model as |dog index|}}
+            <tr>
+                <th scope="row">{{index}}</th>
+                <td>{{dog.name}}</td>
+                <td>{{dog.date_aquired}}</td>
+                <td>{{dog.numerical_age}}</td>
+                <td>{{dog.sex}}</td>
+                <td>{{dog.where_was_pet_originally_found}}</td>
+                <td>{{dog.acquired_by}}</td>
+                <td></td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
