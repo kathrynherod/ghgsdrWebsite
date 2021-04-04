@@ -32,7 +32,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
             }
         });
 
-        modifiedHash.pet_attributes = modifiedHash.pet_attributes.filter((attr) => attr.name !== 'Age');
+        modifiedHash.pet_attributes = modifiedHash.pet_attributes.filter((attr) => attr.name !== 'Age' && attr.name !== 'HW Treatment Start Date');
         let age = modifiedHash.numerical_age.split(',')[0];
 
         if (age === '1 years') {

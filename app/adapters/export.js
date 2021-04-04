@@ -11,10 +11,23 @@ export default DS.JSONAPIAdapter.extend({
     }),
 
     urlForQuery (query) {
-        const queryParams = encodeURI(`&pagination[limit]=200`);
-        if (!query.page) {
-            return `${this.host}${queryParams}`;
+        let queryParams;
+        let limit = 25;
+
+        if (query.type === 'intake') {
+            queryParams = '&search[status]=Intake,Treatment,Boarding';
+
+        } else if (query.type === 'fostered') {
+            queryParams = '&search[status]=Fostered,Fostered - Pending Adoption,Pending Adoption';
+
+        } else if (query.type === 'adopted') {
+            queryParams = '&search[status]=Adopted';
+            limit = 100;
         }
+
+        queryParams = encodeURI(`${queryParams}&pagination[limit]=${limit}`);
+
+        return `${this.host}${queryParams}`;
     },
 
     pathForType(){

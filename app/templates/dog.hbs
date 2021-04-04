@@ -33,9 +33,10 @@
                 {{bio}}
             {{/each}}
             {{#if showVideos}}
-                {{#each model.youTubeURLS as |url|}}
+                {{#each model.youTubeURLS as |url index|}}
                     <div class="video-container">
                         <iframe
+                            id="{{model.name}}-{{index}}"
                             class="video"
                             src={{url}}
                             title={{model.name}}
