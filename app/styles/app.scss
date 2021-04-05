@@ -58,6 +58,7 @@ p:not(last-child) {
 }
 
 table {
+    border: 1px solid lightgray;
     margin: 1rem;
 
     th,td {

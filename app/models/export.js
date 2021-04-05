@@ -8,5 +8,6 @@ export default DogModel.extend({
     app_foster_date: DS.attr('date'),
     hw_treatment_date: DS.attr('date'),
     days_in_rescue: DS.attr('number'),
-    app_adoption_date: DS.attr('date')
+    app_adoption_date: DS.attr('date'),
+    to_foster_date: DS.attr('date'),
 });
