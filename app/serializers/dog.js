@@ -15,6 +15,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
 
     normalize(typeClass, hash) {
         const modifiedHash = hash;
+        const isPendingAdoption = hash.status === 'Pending Adoption';
 
         modifiedHash.description = modifiedHash.description.match(/<p>.*?<\/p>/g) ||
             ["<p>I don't have a bio yet, but keep checking back for more details about me!</p>"];
@@ -105,7 +106,11 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
                 }
                 case 'Adoption Status': {
                     modifiedHash.adoptionStatus = attr.value;
-                    icon = 'check'
+
+                    attr.value = isPendingAdoption ? 'Not Available' : attr.value;
+                    icon = attr.value === 'Available' ?
+                        'check' :
+                        attr.value === 'Coming Soon' ? 'clock' : 'times';
                     index = 10;
 
                     break;

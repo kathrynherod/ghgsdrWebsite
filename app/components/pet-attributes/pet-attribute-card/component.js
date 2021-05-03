@@ -18,7 +18,8 @@ export default Component.extend({
                 return 'success';
             }
             case 'No':
-            case 'Coming Soon': {
+            case 'Coming Soon':
+            case 'Not Available': {
                 return 'danger'
             }
         }
