@@ -22,7 +22,7 @@ module.exports = function(deployTarget) {
     ENV.build.environment = 'production';
     ENV.git = {
       repo: 'git@github.com:kathrynherod/ghgsdrWebsite.git',
-      branch: 'gh-pages',
+      branch: 'main',
       worktreePath: '/tmp/ef4-deploy',
       commitMessage: 'Deployed %@'
     };
