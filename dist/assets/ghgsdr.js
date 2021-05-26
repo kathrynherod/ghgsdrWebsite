@@ -2920,7 +2920,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+824f0425"});
+            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+605f0338"});
           }
         
 //# sourceMappingURL=ghgsdr.map
