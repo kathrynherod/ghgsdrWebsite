@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+@import 'ember-bootstrap/bootstrap';
+@import 'variables.scss';
+
+body.ember-application {
+    background-color: $backgroundColor;
+    font-family: 'Roboto Slab', sans-serif;
+    height: 100vh;
+    margin: 0;
+    width: 100vw;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    text-align: center;
+}
+
+.row {
+    margin: 2rem;
+
+    .bio {
+        font-size: 1.25rem;
+    }
+}
+
+.divider {
+    background-color: $ghgsdrBlue;
+
+    h1 {
+        color: white;
+        padding: 0.5rem;
+    }
+
+    p {
+        color: white;
+        padding: 0.5rem;
+        text-align: center;
+    }
+}
+
+p:not(last-child) {
+    margin-bottom: 1.5rem;
+}
+
+.info {
+    font-size: 1.25rem;
+    padding: 2rem 2rem 0 2rem;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin-bottom: 1.5rem;
+}
+
+.video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.responsive-calendar {
+    position: relative;
+    padding-bottom: 75%;
+    height: 0;
+    overflow: hidden;
+}
+
+.responsive-calendar iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.calendar-container {
+    font-size: large;
+}
+
+table {
+    border: 1px solid lightgray;
+    margin: 1rem;
+
+    th,td {
+        max-width: 7vw;
+    }
+}
+@import 'loader.scss';
+@import 'navbar.scss';
+@import 'cards.scss';
+@import 'image-modal.scss';
+@import 'image-gallery.scss';

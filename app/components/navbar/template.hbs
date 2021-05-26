@@ -1,0 +1,65 @@
+<nav class="navbar">
+    <a class="navbar-brand" href="/">
+        <img src="https://www.ghgsdr.org/templates/ghgsdr/images/greater-houston-german-shepherd-dog-rescue-logo.jpg">
+    </a>
+    {{#if title}}
+        <span class="navbar-text {{if bigName "large"}}">
+            {{title}}
+        </span>
+    {{/if}}
+    <div class="filter">
+        {{#unless hideFilter}}
+            {{#bs-dropdown closeOnMenuClick=false as |dd|}}
+                {{#dd.toggle}}
+                    Filter Dogs
+                    <span class="caret"></span>
+                {{/dd.toggle}}
+                {{#dd.menu as |ddm|}}
+                    {{#bs-form
+                        as |form|
+                    }}
+                        {{#ddm.item}}
+                            Good with:
+                        {{/ddm.item}}
+                        {{ddm.divider}}
+                        {{#ddm.item}}
+                            {{form.element
+                                controlType="checkbox"
+                                label="Big Dogs"
+                                property="goodWithBigDogs"
+                                onChange=(action "toggleGoodWithBigDogs")
+                            }}
+                        {{/ddm.item}}
+                        {{ddm.divider}}
+                        {{#ddm.item}}
+                            {{form.element
+                                controlType="checkbox"
+                                label="Small Dogs"
+                                property="goodWithSmallDogs"
+                                onChange=(action "toggleGoodWithSmallDogs")
+                            }}
+                        {{/ddm.item}}
+                        {{ddm.divider}}
+                        {{#ddm.item}}
+                            {{form.element
+                                controlType="checkbox"
+                                label="Kids"
+                                property="goodWithKids"
+                                onChange=(action "toggleGoodWithKids")
+                            }}
+                        {{/ddm.item}}
+                        {{ddm.divider}}
+                        {{#ddm.item}}
+                            {{form.element
+                                controlType="checkbox"
+                                label="Cats"
+                                property="goodWithCats"
+                                onChange=(action "toggleGoodWithCats")
+                            }}
+                        {{/ddm.item}}
+                    {{/bs-form}}
+                {{/dd.menu}}
+            {{/bs-dropdown}}
+        {{/unless}}
+    </div>
+</nav>
