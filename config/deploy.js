@@ -4,12 +4,7 @@
 module.exports = function(deployTarget) {
   let ENV = {
     build: {},
-    git = {
-      repo: 'git@github.com:kathrynherod/ghgsdrWebsite.git',
-      branch: 'gh-pages',
-      worktreePath: '/tmp/ef4-deploy',
-      commitMessage: 'Deployed %@'
-    },
+
     // include other plugin configuration that applies to all deploy targets here
   };
 
@@ -25,6 +20,12 @@ module.exports = function(deployTarget) {
 
   if (deployTarget === 'production') {
     ENV.build.environment = 'production';
+    ENV.git = {
+      repo: 'git@github.com:kathrynherod/ghgsdrWebsite.git',
+      branch: 'gh-pages',
+      worktreePath: '/tmp/ef4-deploy',
+      commitMessage: 'Deployed %@'
+    };
     // configure other plugins for production deploy target here
   }
 
