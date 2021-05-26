@@ -10008,10 +10008,26 @@ p:not(last-child) {
 
 table {
   border: 1px solid lightgray;
-  margin: 1rem;
 }
 table th, table td {
   max-width: 7vw;
+}
+
+.go-back {
+  background-color: #002b55;
+  border: 1px solid #cccccc;
+  border-radius: 0.5rem;
+  display: block;
+  margin: 0.25rem auto 2rem auto;
+  padding: 0.75rem;
+}
+.go-back a {
+  color: white;
+}
+.go-back:hover {
+  background-color: white;
+  box-shadow: 0px 5px 10px rgba(42, 47, 92, 0.4);
+  color: #002b55;
 }
 
 .ajax-loader {
@@ -10200,6 +10216,12 @@ table th, table td {
   font-size: 2rem;
   font-weight: 400;
   text-transform: uppercase;
+}
+.card-container .card__item .card__body__subtitle {
+  color: #696969;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
 }
 .card-container .card__item .card__body__text {
   flex: 1 1 auto;

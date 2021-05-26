@@ -17,6 +17,15 @@
             </div>
         {{/each}}
     </div>
+
+    <div class="row">
+        <div class="go-back">
+            {{#link-to "index"}}
+                Go Back to All Dogs
+            {{/link-to}}
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4">
             <table class="table table-striped border">
@@ -48,6 +57,12 @@
                 {{/each}}
             {{/if}}
             <p>Information last updated: {{model.updated_at}}</p>
+
+        </div>
+        <div class="go-back">
+            {{#link-to "index"}}
+                Go Back to All Dogs
+            {{/link-to}}
         </div>
     </div>
 

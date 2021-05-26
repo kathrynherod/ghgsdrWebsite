@@ -3,6 +3,7 @@ const { Model } = DS;
 
 export default Model.extend({
     age: DS.attr('string'),
+    ageAndGender: DS.attr('string'),
     acquired_by: DS.attr('string'),
     adoptionStatus: DS.attr('string'),
     current_location_zip: DS.attr('string'),
