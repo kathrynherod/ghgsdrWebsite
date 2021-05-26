@@ -4,7 +4,7 @@ module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'ghgsdr',
     environment,
-    rootURL: '/',
+    rootURL: '/ghgsdrWebsite/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

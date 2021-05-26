@@ -29,12 +29,8 @@
 
         <div class="divider">
             <h1>Dogs Available Soon for Adoption</h1>
-        </div>
-        <div class="info">
             <p>
-                Dogs listed below are NOT currently ready for adoption.
-                If you are interested any of the dogs below, please email me to let me know.
-                I will forward your information to the foster AFTER they are available for adoption.
+                Dogs listed below are NOT currently ready for adoption, but will be soon.
             </p>
         </div>
         <ul class="card-container">
@@ -53,16 +49,11 @@
 
         <div class="divider">
             <h1>Dogs Pending Adoption</h1>
-        </div>
-
-        <div class="info">
             <p>
                 Dogs listed below are NOT currently available for adoption.
-                They have gone home with an adopter for a two week trial. If you are interested in any of these dogs,
-                you may let me know, and if the adoption does not work out, I will be in touch.
+                They have gone home with an adopter for a two week trial.
             </p>
         </div>
-
         <ul class="card-container">
             {{#each adoptionPendingDogs as |dog|}}
                 {{card
@@ -76,19 +67,6 @@
                 }}
             {{/each}}
         </ul>
-    </div>
-
-    <div class="divider">
-        <h1>Upcoming Events</h1>
-    </div>
-
-    <div class="responsive-calendar">
-        <iframe
-            src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FChicago&amp;src=ZXZlbnRzLmdoZ3NkckBnbWFpbC5jb20&amp;color=%239E69AF&amp;showPrint=1&amp;showNav=1&amp;showTitle=0&amp;showCalendars=1&amp;mode=AGENDA"
-            style="border-width:0"
-            frameborder="0"
-            scrolling="no"
-    ></iframe>
     </div>
 {{/if}}
 
