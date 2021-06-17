@@ -8,16 +8,18 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
     },
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-        const dogs = payload.collection.filter((dog) => {
-            const dob = new Date(dog.date_of_birth);
-            const today = new Date();
-            const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
+        const dogs = payload.collection
+        // To filter out puppies add this back
+            // .filter((dog) => {
+            //     const dob = new Date(dog.date_of_birth);
+            //     const today = new Date();
+            //     const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
 
-            return dob <= sixMonthsAgo;
-        });
+            //     return dob <= sixMonthsAgo;
+            // });
 
 
-        return this._super(store, primaryModelClass, dogs, id, requestType)
+        return this._super(store, primaryModelClass, dogs, id, requestType);
     },
 
     normalize(typeClass, hash) {

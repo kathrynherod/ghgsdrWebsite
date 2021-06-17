@@ -2535,12 +2535,14 @@
     },
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-      const dogs = payload.collection.filter(dog => {
-        const dob = new Date(dog.date_of_birth);
-        const today = new Date();
-        const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
-        return dob <= sixMonthsAgo;
-      });
+      const dogs = payload.collection; // To filter out puppies add this back
+      // .filter((dog) => {
+      //     const dob = new Date(dog.date_of_birth);
+      //     const today = new Date();
+      //     const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
+      //     return dob <= sixMonthsAgo;
+      // });
+
       return this._super(store, primaryModelClass, dogs, id, requestType);
     },
 
@@ -2922,7 +2924,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+2674a62b"});
+            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+798071ed"});
           }
         
 //# sourceMappingURL=ghgsdr.map
