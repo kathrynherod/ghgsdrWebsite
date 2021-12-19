@@ -9,7 +9,7 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route('dog', { path: '/:id' });
   this.route('export');
-  this.route('happy-tails', { path: 'happyTails/:id'});
+  this.route('happy-tails');
 });
 
 export default Router;

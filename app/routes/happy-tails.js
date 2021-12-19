@@ -5,16 +5,28 @@ import $ from 'jquery';
 export default Route.extend({
     store: service(),
 
+    queryParams: {
+        name: {
+            refreshModel: true,
+        },
+    },
+
     model(params) {
-        return this.store.query('dog', { status: 'adopted', name: params.id });
+        const { name } = params;
+
+        if (name) {
+            return this.store.query('dog', { status: 'adopted', name });
+        }
     },
 
     afterModel(model) {
-        $(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
+        if (model) {
+            $(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
+        }
     },
 
     setupController(controller, model) {
-        controller.set('model', model.get('firstObject'));
+        controller.set('dogs', model);
     },
 
     actions: {
@@ -27,6 +39,10 @@ export default Route.extend({
                 $("#initialPageLoading").remove();
                 controller.set('loading', false);
             });
+        },
+
+        refreshModel() {
+            this.refresh();
         },
     },
 });

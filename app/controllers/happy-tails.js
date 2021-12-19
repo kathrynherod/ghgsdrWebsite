@@ -3,8 +3,12 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 
 export default Controller.extend({
-    htmlSafeBios: computed('model.description', function() {
-        const description = this.get('model.description');
+    queryParams: ['name'],
+
+    name: '',
+
+    htmlSafeBios: computed('selectedDog.description', function() {
+        const description = this.get('selectedDog.description');
         const safeBios = []
 
         description.forEach(desc => {
@@ -14,8 +18,8 @@ export default Controller.extend({
         return safeBios;
     }),
 
-    petAttrs: computed('model.pet_attributes', function() {
-        const petAttrs = this.get('model.pet_attributes');
+    petAttrs: computed('selectedDog.pet_attributes', function() {
+        const petAttrs = this.get('selectedDog.pet_attributes');
         const petAttrsObj = { };
 
         petAttrs.forEach(attr => {
@@ -64,7 +68,15 @@ export default Controller.extend({
     actions: {
         downloadImages() {
 
-            window.open(`https://awo.petstablished.com/awo/pets/${this.get('model.id')}/download_images`);
+            window.open(`https://awo.petstablished.com/awo/pets/${this.get('selectedDog.id')}/download_images`);
         },
+
+        searchDogs(name) {
+            this.set('name', name);
+        },
+
+        selectDog(dog) {
+            this.set('selectedDog', dog);
+        }
     }
 });

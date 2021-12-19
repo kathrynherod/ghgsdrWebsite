@@ -108,6 +108,29 @@ table {
     }
 }
 
+.happy-tails {
+    padding: 4rem;
+
+    .search {
+        margin-bottom: 2rem;
+    }
+
+    button {
+        background-color: $ghgsdrBlue;
+        border: 1px solid $gray-light;
+        border-radius: 0.5rem;
+        color: $gray-lighter;
+        display: block;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        width: 100%;
+    }
+
+    .dog-list {
+        margin-bottom: 2rem;
+    }
+}
+
 @import 'loader.scss';
 @import 'navbar.scss';
 @import 'cards.scss';

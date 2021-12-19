@@ -10030,6 +10030,26 @@ table th, table td {
   color: #002b55;
 }
 
+.happy-tails {
+  padding: 4rem;
+}
+.happy-tails .search {
+  margin-bottom: 2rem;
+}
+.happy-tails button {
+  background-color: #002b55;
+  border: 1px solid #cccccc;
+  border-radius: 0.5rem;
+  color: #ececec;
+  display: block;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+}
+.happy-tails .dog-list {
+  margin-bottom: 2rem;
+}
+
 .ajax-loader {
   position: absolute;
   top: 25%;

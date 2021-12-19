@@ -1193,6 +1193,103 @@
 
   _exports.default = _default;
 });
+;define("ghgsdr/components/search/component", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.Component.extend({
+    attributeBindings: ['autocomplete'],
+    autocomplete: 'off',
+
+    /**
+        Override for allowing an empty search field input to be submitted to the
+        calling context. (Useful when wanting to _reset_ a search).
+         @property allowEmpty
+        @type {Boolean}
+        @default false
+     */
+    allowEmpty: false,
+
+    /**
+        Applied to the search button for a11y purposes.
+         @property buttonLabel
+        @type {String}
+        @default 'Search'
+     */
+    buttonLabel: Ember.computed('placeholder', function () {
+      const {
+        i18n,
+        placeholder
+      } = this.getProperties('i18n', 'placeholder');
+      return placeholder || i18n.t('core_ui.LABEL_SEARCH');
+    }),
+
+    /**
+        Defines action to be called when the form is submitted.
+        Supports closure actions or action names defined in the
+        component helper declaration.
+         @property submitAction
+        @type {String}
+     */
+    submitAction: null,
+
+    /**
+        Defines component tag name.
+         @property tagName
+        @type {String}
+        @default 'form'
+     */
+    tagName: 'form',
+
+    /**
+        Stores the textbox value and submitted with `submitAction`. By setting
+        this property to `oneWay('immutableValue')` we can introduce one-way
+        binding by passing the context's representation of this value to the
+        `immutableValue` property of this component.
+         @property value
+        @type {String}
+     */
+    value: Ember.computed.oneWay('immutableValue'),
+
+    /**
+        Called on form submit and determines the action name and
+        action method to be invoked (passing `value` along with
+        the action call).
+         @method submit
+     */
+    submit(e) {
+      const action = this.get('submitAction');
+      const value = this.get('value');
+      e.preventDefault();
+      action(value);
+    }
+
+  });
+
+  _exports.default = _default;
+});
+;define("ghgsdr/components/search/template", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "virYUYU4",
+    "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input\",null,[[\"class\",\"placeholder\",\"type\",\"value\"],[\"form-control\",\"Search by Dog Name\",\"search\",[24,[\"value\"]]]]],false]],\"hasEval\":false}",
+    "meta": {
+      "moduleName": "ghgsdr/components/search/template.hbs"
+    }
+  });
+
+  _exports.default = _default;
+});
 ;define("ghgsdr/components/table/component", ["exports"], function (_exports) {
   "use strict";
 
@@ -1287,16 +1384,18 @@
   _exports.default = void 0;
 
   var _default = Ember.Controller.extend({
-    htmlSafeBios: Ember.computed('model.description', function () {
-      const description = this.get('model.description');
+    queryParams: ['name'],
+    name: '',
+    htmlSafeBios: Ember.computed('selectedDog.description', function () {
+      const description = this.get('selectedDog.description');
       const safeBios = [];
       description.forEach(desc => {
         safeBios.push(Ember.String.htmlSafe(desc));
       });
       return safeBios;
     }),
-    petAttrs: Ember.computed('model.pet_attributes', function () {
-      const petAttrs = this.get('model.pet_attributes');
+    petAttrs: Ember.computed('selectedDog.pet_attributes', function () {
+      const petAttrs = this.get('selectedDog.pet_attributes');
       const petAttrsObj = {};
       petAttrs.forEach(attr => {
         const {
@@ -1328,7 +1427,15 @@
     }),
     actions: {
       downloadImages() {
-        window.open(`https://awo.petstablished.com/awo/pets/${this.get('model.id')}/download_images`);
+        window.open(`https://awo.petstablished.com/awo/pets/${this.get('selectedDog.id')}/download_images`);
+      },
+
+      searchDogs(name) {
+        this.set('name', name);
+      },
+
+      selectDog(dog) {
+        this.set('selectedDog', dog);
       }
 
     }
@@ -2434,9 +2541,7 @@
       path: '/:id'
     });
     this.route('export');
-    this.route('happy-tails', {
-      path: 'happyTails/:id'
-    });
+    this.route('happy-tails');
   });
   var _default = Router;
   _exports.default = _default;
@@ -2541,20 +2646,33 @@
 
   var _default = Ember.Route.extend({
     store: Ember.inject.service(),
+    queryParams: {
+      name: {
+        refreshModel: true
+      }
+    },
 
     model(params) {
-      return this.store.query('dog', {
-        status: 'adopted',
-        name: params.id
-      });
+      const {
+        name
+      } = params;
+
+      if (name) {
+        return this.store.query('dog', {
+          status: 'adopted',
+          name
+        });
+      }
     },
 
     afterModel(model) {
-      (0, _jquery.default)(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
+      if (model) {
+        (0, _jquery.default)(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
+      }
     },
 
     setupController(controller, model) {
-      controller.set('model', model.get('firstObject'));
+      controller.set('dogs', model);
     },
 
     actions: {
@@ -2565,6 +2683,10 @@
           (0, _jquery.default)("#initialPageLoading").remove();
           controller.set('loading', false);
         });
+      },
+
+      refreshModel() {
+        this.refresh();
       }
 
     }
@@ -3005,8 +3127,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "FkAQpo4c",
-    "block": "{\"symbols\":[\"bio\"],\"statements\":[[7,\"div\",true],[10,\"class\",\"table-responsive\"],[8],[0,\"\\n    \"],[7,\"table\",true],[10,\"class\",\"table\"],[8],[0,\"\\n    \\t\"],[7,\"tbody\",true],[8],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n\\t\\t\\t\\t\"],[7,\"td\",true],[10,\"colspan\",\"2\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"Click On Each Photo To Enlarge\"],[9],[0,\"\\n\\t\\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Sex:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Sex\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Age:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Age\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Weight:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"model\",\"weight\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Spay/Neuter:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"spayNeuter\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Heartworm Status:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"hwStatus\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Microchip:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"microchip\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Kids:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"kids\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Big Dogs:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"bigDogs\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Small Dogs:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"smallDogs\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Cats:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"cats\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"House Trained:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"houseTrained\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adoption Status:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adopted\"],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Location:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Location\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"htmlSafeBios\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\",true],[8],[1,[23,1,[]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[7,\"button\",true],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"downloadImages\"],null]],[8],[0,\"Download Images\"],[9]],\"hasEval\":false}",
+    "id": "S8Ds2PV6",
+    "block": "{\"symbols\":[\"bio\",\"dog\"],\"statements\":[[7,\"div\",true],[10,\"class\",\"happy-tails\"],[8],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"search\"],[8],[0,\"\\n        \"],[1,[28,\"search\",null,[[\"submitAction\",\"value\"],[[28,\"action\",[[23,0,[]],\"searchDogs\"],null],[28,\"unbound\",[[24,[\"name\"]]],null]]]],false],[0,\"\\n    \"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"dog-list\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"dogs\"]]],null,{\"statements\":[[0,\"            \"],[7,\"button\",true],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"selectDog\",[23,2,[]]],null]],[8],[0,\"\\n                Select \"],[1,[23,2,[\"name\"]],false],[0,\" \"],[1,[23,2,[\"id\"]],false],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"    \"],[9],[0,\"\\n\\n\"],[4,\"if\",[[24,[\"selectedDog\"]]],null,{\"statements\":[[0,\"        \"],[7,\"div\",true],[10,\"class\",\"table-responsive\"],[8],[0,\"\\n            \"],[7,\"table\",true],[10,\"class\",\"table\"],[8],[0,\"\\n            \\t\"],[7,\"tbody\",true],[8],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n        \\t\\t\\t\\t\"],[7,\"td\",true],[10,\"colspan\",\"2\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"Click On Each Photo To Enlarge\"],[9],[0,\"\\n        \\t\\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Sex:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Sex\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Age:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Age\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Weight:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"model\",\"weight\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Spay/Neuter:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"spayNeuter\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Heartworm Status:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"hwStatus\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Microchip:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"microchip\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Kids:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"kids\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Big Dogs:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"bigDogs\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Small Dogs:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"smallDogs\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Cats:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"cats\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"House Trained:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"houseTrained\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adoption Status:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adopted\"],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Location:\"],[9],[0,\"\\n            \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Location\"]],false],[9],[0,\"\\n            \\t\\t\"],[9],[0,\"\\n            \\t\"],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"htmlSafeBios\"]]],null,{\"statements\":[[0,\"            \"],[7,\"p\",true],[8],[1,[23,1,[]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n        \"],[7,\"button\",true],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"downloadImages\"],null]],[8],[0,\"Download Images\"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[9]],\"hasEval\":false}",
     "meta": {
       "moduleName": "ghgsdr/templates/happy-tails.hbs"
     }

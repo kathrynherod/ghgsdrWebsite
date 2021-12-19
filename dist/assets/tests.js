@@ -48,6 +48,10 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
     assert.expect(1);
     assert.ok(true, 'components/pet-attributes/pet-attribute-tr/component.js should pass ESLint\n\n');
   });
+  QUnit.test('components/search/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'components/search/component.js should pass ESLint\n\n');
+  });
   QUnit.test('components/table/component.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'components/table/component.js should pass ESLint\n\n');
@@ -164,6 +168,10 @@ define("ghgsdr/tests/lint/templates.template.lint-test", [], function () {
   QUnit.test('ghgsdr/components/pet-attributes/template.hbs', function (assert) {
     assert.expect(1);
     assert.ok(true, 'ghgsdr/components/pet-attributes/template.hbs should pass TemplateLint.\n\n');
+  });
+  QUnit.test('ghgsdr/components/search/template.hbs', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'ghgsdr/components/search/template.hbs should pass TemplateLint.\n\n');
   });
   QUnit.test('ghgsdr/components/table/template.hbs', function (assert) {
     assert.expect(1);
