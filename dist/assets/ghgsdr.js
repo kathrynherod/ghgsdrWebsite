@@ -2665,10 +2665,8 @@
       }
     },
 
-    afterModel(model) {
-      if (model) {
-        (0, _jquery.default)(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
-      }
+    afterModel() {
+      (0, _jquery.default)(document).attr('title', `Happy Tails Helper - GHGSDR`);
     },
 
     setupController(controller, model) {

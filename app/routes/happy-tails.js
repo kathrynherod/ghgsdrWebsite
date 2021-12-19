@@ -19,10 +19,8 @@ export default Route.extend({
         }
     },
 
-    afterModel(model) {
-        if (model) {
-            $(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
-        }
+    afterModel() {
+        $(document).attr('title', `Happy Tails Helper - GHGSDR`);
     },
 
     setupController(controller, model) {
