@@ -1,0 +1,66 @@
+<div class="table-responsive">
+    <table class="table">
+    	<tbody>
+    		<tr>
+				<td colspan="2" style="text-align: center;">Click On Each Photo To Enlarge</td>
+			</tr>
+    		<tr>
+    			<td>Sex:</td>
+    			<td>{{petAttrs.Sex}}</td>
+    		</tr>
+    		<tr>
+    			<td>Age:</td>
+    			<td>{{petAttrs.Age}}</td>
+    		</tr>
+    		<tr>
+    			<td>Weight:</td>
+    			<td>{{model.weight}}</td>
+    		</tr>
+    		<tr>
+    			<td>Spay/Neuter:</td>
+    			<td>{{petAttrs.spayNeuter}}</td>
+    		</tr>
+    		<tr>
+    			<td>Heartworm Status:</td>
+    			<td>{{petAttrs.hwStatus}}</td>
+    		</tr>
+    		<tr>
+    			<td>Microchip:</td>
+    			<td>{{petAttrs.microchip}}</td>
+    		</tr>
+    		<tr>
+    			<td>Good w/Kids:</td>
+    			<td>{{petAttrs.kids}}</td>
+    		</tr>
+    		<tr>
+    			<td>Good w/Big Dogs:</td>
+    			<td>{{petAttrs.bigDogs}}</td>
+    		</tr>
+    		<tr>
+    			<td>Good w/Small Dogs:</td>
+    			<td>{{petAttrs.smallDogs}}</td>
+    		</tr>
+    		<tr>
+    			<td>Good w/Cats:</td>
+    			<td>{{petAttrs.cats}}</td>
+    		</tr>
+    		<tr>
+    			<td>House Trained:</td>
+    			<td>{{petAttrs.houseTrained}}</td>
+    		</tr>
+    		<tr>
+    			<td>Adoption Status:</td>
+    			<td>Adopted</td>
+    		</tr>
+    		<tr>
+    			<td>Location:</td>
+    			<td>{{petAttrs.Location}}</td>
+    		</tr>
+    	</tbody>
+</table>
+</div>
+{{#each htmlSafeBios as |bio|}}
+    <p>{{bio}}</p>
+{{/each}}
+
+<button onClick={{action "downloadImages"}}>Download Images</button>

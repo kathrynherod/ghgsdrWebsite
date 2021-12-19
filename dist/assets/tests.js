@@ -60,6 +60,10 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
     assert.expect(1);
     assert.ok(true, 'controllers/export.js should pass ESLint\n\n');
   });
+  QUnit.test('controllers/happy-tails.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'controllers/happy-tails.js should pass ESLint\n\n');
+  });
   QUnit.test('controllers/index.js', function (assert) {
     assert.expect(1);
     assert.ok(false, 'controllers/index.js should pass ESLint\n\n39:13 - \'gtag\' is not defined. (no-undef)\n67:13 - \'gtag\' is not defined. (no-undef)');
@@ -99,6 +103,10 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
   QUnit.test('routes/export.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/export.js should pass ESLint\n\n');
+  });
+  QUnit.test('routes/happy-tails.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'routes/happy-tails.js should pass ESLint\n\n');
   });
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
@@ -169,6 +177,10 @@ define("ghgsdr/tests/lint/templates.template.lint-test", [], function () {
     assert.expect(1);
     assert.ok(true, 'ghgsdr/templates/export.hbs should pass TemplateLint.\n\n');
   });
+  QUnit.test('ghgsdr/templates/happy-tails.hbs', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'ghgsdr/templates/happy-tails.hbs should pass TemplateLint.\n\n');
+  });
   QUnit.test('ghgsdr/templates/index.hbs', function (assert) {
     assert.expect(1);
     assert.ok(true, 'ghgsdr/templates/index.hbs should pass TemplateLint.\n\n');
@@ -189,6 +201,10 @@ define("ghgsdr/tests/lint/tests.lint-test", [], function () {
   QUnit.test('unit/controllers/dog-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/controllers/dog-test.js should pass ESLint\n\n');
+  });
+  QUnit.test('unit/controllers/happy-tails-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/controllers/happy-tails-test.js should pass ESLint\n\n');
   });
   QUnit.test('unit/controllers/index-test.js', function (assert) {
     assert.expect(1);
@@ -213,6 +229,10 @@ define("ghgsdr/tests/lint/tests.lint-test", [], function () {
   QUnit.test('unit/routes/dog-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/routes/dog-test.js should pass ESLint\n\n');
+  });
+  QUnit.test('unit/routes/happy-tails-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/routes/happy-tails-test.js should pass ESLint\n\n');
   });
   QUnit.test('unit/routes/index-test.js', function (assert) {
     assert.expect(1);
@@ -261,6 +281,18 @@ define("ghgsdr/tests/unit/controllers/dog-test", ["qunit", "ember-qunit"], funct
 
     (0, _qunit.test)('it exists', function (assert) {
       let controller = this.owner.lookup('controller:dog');
+      assert.ok(controller);
+    });
+  });
+});
+define("ghgsdr/tests/unit/controllers/happy-tails-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Controller | happy-tails', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks); // Replace this with your real tests.
+
+    (0, _qunit.test)('it exists', function (assert) {
+      let controller = this.owner.lookup('controller:happy-tails');
       assert.ok(controller);
     });
   });
@@ -336,6 +368,17 @@ define("ghgsdr/tests/unit/routes/dog-test", ["qunit", "ember-qunit"], function (
     (0, _emberQunit.setupTest)(hooks);
     (0, _qunit.test)('it exists', function (assert) {
       let route = this.owner.lookup('route:dog');
+      assert.ok(route);
+    });
+  });
+});
+define("ghgsdr/tests/unit/routes/happy-tails-test", ["qunit", "ember-qunit"], function (_qunit, _emberQunit) {
+  "use strict";
+
+  (0, _qunit.module)('Unit | Route | happy-tails', function (hooks) {
+    (0, _emberQunit.setupTest)(hooks);
+    (0, _qunit.test)('it exists', function (assert) {
+      let route = this.owner.lookup('route:happy-tails');
       assert.ok(route);
     });
   });

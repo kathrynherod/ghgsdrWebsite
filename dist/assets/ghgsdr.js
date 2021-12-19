@@ -11,12 +11,24 @@
   _exports.default = void 0;
 
   var _default = _emberData.default.JSONAPIAdapter.extend({
-    proxy: 'https://quiet-meadow-73531.herokuapp.com/',
+    proxy: 'https://hidden-bayou-45203.herokuapp.com/',
     host: Ember.computed(function () {
       const psUrl = 'https://petstablished.com/api/v2/public/pets?public_key=43eb4fe251a66bbdb3042ec3dcddb7c7';
-      const queryParams = encodeURI(`&search[status]=Fostered,Fostered - Pending Adoption,Pending Adoption&pagination[limit]=50`);
-      return `${this.proxy}${psUrl}${queryParams}`;
+      return `${this.proxy}${psUrl}`;
     }),
+
+    urlForQuery(query) {
+      let queryParams = '&search[status]=Fostered,Fostered - Pending Adoption,Pending Adoption';
+      let limit = 25;
+
+      if (query.status === 'adopted') {
+        queryParams = `&search[status]=Adopted&&search[name]=${query.name}`;
+        limit = 5;
+      }
+
+      queryParams = encodeURI(`${queryParams}&pagination[limit]=${limit}`);
+      return `${this.host}${queryParams}`;
+    },
 
     pathForType() {
       return '';
@@ -35,7 +47,7 @@
   _exports.default = void 0;
 
   var _default = _emberData.default.JSONAPIAdapter.extend({
-    proxy: 'https://quiet-meadow-73531.herokuapp.com/',
+    proxy: 'https://hidden-bayou-45203.herokuapp.com/',
     host: Ember.computed(function () {
       const psUrl = 'https://petstablished.com/api/v2/public/pets?public_key=43eb4fe251a66bbdb3042ec3dcddb7c7';
       return `${this.proxy}${psUrl}`;
@@ -1266,6 +1278,64 @@
 
   _exports.default = _default;
 });
+;define("ghgsdr/controllers/happy-tails", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.Controller.extend({
+    htmlSafeBios: Ember.computed('model.description', function () {
+      const description = this.get('model.description');
+      const safeBios = [];
+      description.forEach(desc => {
+        safeBios.push(Ember.String.htmlSafe(desc));
+      });
+      return safeBios;
+    }),
+    petAttrs: Ember.computed('model.pet_attributes', function () {
+      const petAttrs = this.get('model.pet_attributes');
+      const petAttrsObj = {};
+      petAttrs.forEach(attr => {
+        const {
+          name,
+          value
+        } = attr.getProperties('name', 'value');
+
+        if (name.includes('chip')) {
+          petAttrsObj['microchip'] = value;
+        } else if (name.includes('Spay')) {
+          petAttrsObj['spayNeuter'] = value;
+        } else if (name.includes('Heartworm')) {
+          petAttrsObj['hwStatus'] = value;
+        } else if (name.includes('Kids')) {
+          petAttrsObj['kids'] = value;
+        } else if (name.includes('Big Dogs')) {
+          petAttrsObj['bigDogs'] = value;
+        } else if (name.includes('Small Dogs')) {
+          petAttrsObj['smallDogs'] = value;
+        } else if (name.includes('Cats')) {
+          petAttrsObj['cats'] = value;
+        } else if (name.includes('House Trained')) {
+          petAttrsObj['houseTrained'] = value;
+        } else {
+          petAttrsObj[name] = value;
+        }
+      });
+      return petAttrsObj;
+    }),
+    actions: {
+      downloadImages() {
+        window.open(`https://awo.petstablished.com/awo/pets/${this.get('model.id')}/download_images`);
+      }
+
+    }
+  });
+
+  _exports.default = _default;
+});
 ;define("ghgsdr/controllers/index", ["exports"], function (_exports) {
   "use strict";
 
@@ -2364,6 +2434,9 @@
       path: '/:id'
     });
     this.route('export');
+    this.route('happy-tails', {
+      path: 'happyTails/:id'
+    });
   });
   var _default = Router;
   _exports.default = _default;
@@ -2458,6 +2531,47 @@
 
   _exports.default = _default;
 });
+;define("ghgsdr/routes/happy-tails", ["exports", "jquery"], function (_exports, _jquery) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.Route.extend({
+    store: Ember.inject.service(),
+
+    model(params) {
+      return this.store.query('dog', {
+        status: 'adopted',
+        name: params.id
+      });
+    },
+
+    afterModel(model) {
+      (0, _jquery.default)(document).attr('title', `${model.get('firstObject.name')} - GHGSDR`);
+    },
+
+    setupController(controller, model) {
+      controller.set('model', model.get('firstObject'));
+    },
+
+    actions: {
+      loading(transition) {
+        const controller = this.controllerFor('index');
+        controller.set('loading', true);
+        transition.finally(() => {
+          (0, _jquery.default)("#initialPageLoading").remove();
+          controller.set('loading', false);
+        });
+      }
+
+    }
+  });
+
+  _exports.default = _default;
+});
 ;define("ghgsdr/routes/index", ["exports", "jquery"], function (_exports, _jquery) {
   "use strict";
 
@@ -2535,14 +2649,13 @@
     },
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-      const dogs = payload.collection; // To filter out puppies add this back
-      // .filter((dog) => {
-      //     const dob = new Date(dog.date_of_birth);
-      //     const today = new Date();
-      //     const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
-      //     return dob <= sixMonthsAgo;
-      // });
-
+      const dogs = payload.collection // To include/filter out puppies comment or uncomment this line
+      .filter(dog => {
+        const dob = new Date(dog.date_of_birth);
+        const today = new Date();
+        const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
+        return dob <= sixMonthsAgo;
+      });
       return this._super(store, primaryModelClass, dogs, id, requestType);
     },
 
@@ -2883,6 +2996,24 @@
 
   _exports.default = _default;
 });
+;define("ghgsdr/templates/happy-tails", ["exports"], function (_exports) {
+  "use strict";
+
+  Object.defineProperty(_exports, "__esModule", {
+    value: true
+  });
+  _exports.default = void 0;
+
+  var _default = Ember.HTMLBars.template({
+    "id": "FkAQpo4c",
+    "block": "{\"symbols\":[\"bio\"],\"statements\":[[7,\"div\",true],[10,\"class\",\"table-responsive\"],[8],[0,\"\\n    \"],[7,\"table\",true],[10,\"class\",\"table\"],[8],[0,\"\\n    \\t\"],[7,\"tbody\",true],[8],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n\\t\\t\\t\\t\"],[7,\"td\",true],[10,\"colspan\",\"2\"],[10,\"style\",\"text-align: center;\"],[8],[0,\"Click On Each Photo To Enlarge\"],[9],[0,\"\\n\\t\\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Sex:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Sex\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Age:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Age\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Weight:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"model\",\"weight\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Spay/Neuter:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"spayNeuter\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Heartworm Status:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"hwStatus\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Microchip:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"microchip\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Kids:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"kids\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Big Dogs:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"bigDogs\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Small Dogs:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"smallDogs\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Good w/Cats:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"cats\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"House Trained:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"houseTrained\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adoption Status:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Adopted\"],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\\t\"],[7,\"tr\",true],[8],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[0,\"Location:\"],[9],[0,\"\\n    \\t\\t\\t\"],[7,\"td\",true],[8],[1,[24,[\"petAttrs\",\"Location\"]],false],[9],[0,\"\\n    \\t\\t\"],[9],[0,\"\\n    \\t\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[4,\"each\",[[24,[\"htmlSafeBios\"]]],null,{\"statements\":[[0,\"    \"],[7,\"p\",true],[8],[1,[23,1,[]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[7,\"button\",true],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"downloadImages\"],null]],[8],[0,\"Download Images\"],[9]],\"hasEval\":false}",
+    "meta": {
+      "moduleName": "ghgsdr/templates/happy-tails.hbs"
+    }
+  });
+
+  _exports.default = _default;
+});
 ;define("ghgsdr/templates/index", ["exports"], function (_exports) {
   "use strict";
 
@@ -2924,7 +3055,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+798071ed"});
+            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+a09b770c"});
           }
         
 //# sourceMappingURL=ghgsdr.map
