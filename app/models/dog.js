@@ -37,4 +37,15 @@ export default Model.extend({
     weight: DS.attr('string'),
     where_was_pet_originally_found: DS.attr('string'),
     youTubeURLS: DS.attr({ async: false }),
+
+    /*
+        meta: DS.attr(),
+        hw_status: DS.attr('string'),
+        current_location: DS.attr('string'),
+        app_foster_date: DS.attr('date'),
+        hw_treatment_date: DS.attr('date'),
+        days_in_rescue: DS.attr('number'),
+        app_adoption_date: DS.attr('date'),
+        to_foster_date: DS.attr('date'),
+    */
 });

@@ -24,7 +24,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
 
     normalize(typeClass, hash) {
         const modifiedHash = hash;
-        const isPendingAdoption = hash.status === 'Pending Adoption';
+        const isPendingAdoption = hash.status.includes('Pending Adoption');
 
         modifiedHash.description = modifiedHash.description.match(/<p>.*?<\/p>/g) ||
             ["<p>I don't have a bio yet, but keep checking back for more details about me!</p>"];
