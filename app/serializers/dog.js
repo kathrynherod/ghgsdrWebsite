@@ -9,7 +9,7 @@ export default DS.JSONSerializer.extend(EmbeddedRecordsMixin, {
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
         const dogs = payload.collection
-        // To include/filter out puppies comment or uncomment this line
+        // To include/filter out puppies comment or uncomment this line (commented 5/28/22)
             // .filter((dog) => {
             //     const dob = new Date(dog.date_of_birth);
             //     const today = new Date();
