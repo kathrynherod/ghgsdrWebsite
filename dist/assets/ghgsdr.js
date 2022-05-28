@@ -38,46 +38,6 @@
 
   _exports.default = _default;
 });
-;define("ghgsdr/adapters/export", ["exports", "ember-data"], function (_exports, _emberData) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = _emberData.default.JSONAPIAdapter.extend({
-    proxy: 'https://hidden-bayou-45203.herokuapp.com/',
-    host: Ember.computed(function () {
-      const psUrl = 'https://petstablished.com/api/v2/public/pets?public_key=43eb4fe251a66bbdb3042ec3dcddb7c7';
-      return `${this.proxy}${psUrl}`;
-    }),
-
-    urlForQuery(query) {
-      let queryParams;
-      let limit = 25;
-
-      if (query.type === 'intake') {
-        queryParams = '&search[status]=Intake,Treatment,Boarding';
-      } else if (query.type === 'fostered') {
-        queryParams = '&search[status]=Fostered,Fostered - Pending Adoption,Pending Adoption';
-      } else if (query.type === 'adopted') {
-        queryParams = '&search[status]=Adopted';
-        limit = 100;
-      }
-
-      queryParams = encodeURI(`${queryParams}&pagination[limit]=${limit}`);
-      return `${this.host}${queryParams}`;
-    },
-
-    pathForType() {
-      return '';
-    }
-
-  });
-
-  _exports.default = _default;
-});
 ;define("ghgsdr/app", ["exports", "ghgsdr/resolver", "ember-load-initializers", "ghgsdr/config/environment"], function (_exports, _resolver, _emberLoadInitializers, _environment) {
   "use strict";
 
@@ -969,7 +929,69 @@
   });
   _exports.default = void 0;
 
-  var _default = Ember.Component.extend({});
+  var _default = Ember.Component.extend({
+    canNavigate: Ember.computed('imageList', 'index', function () {
+      const imageList = this.get('imageList');
+      return imageList && imageList.length;
+    }),
+    showLeftArrow: Ember.computed('canNavigate', 'imageList', 'index', function () {
+      const {
+        canNavigate,
+        index
+      } = this.getProperties('canNavigate', 'index');
+      return canNavigate && index > 0;
+    }),
+    showRightArrow: Ember.computed('canNavigate', 'imageList', 'index', function () {
+      const {
+        canNavigate,
+        imageList,
+        index
+      } = this.getProperties('canNavigate', 'imageList', 'index');
+      return canNavigate && index < imageList.length - 1;
+    }),
+
+    init() {
+      this._super(...arguments);
+
+      this.set('changePhotoOnKeyPress', this.get('changePhotoOnKeyPress').bind(this));
+    },
+
+    changePhotoOnKeyPress(e) {
+      const {
+        showLeftArrow,
+        showRightArrow
+      } = this.getProperties('showLeftArrow', 'showRightArrow');
+      const next = e.key === 'ArrowRight';
+      const previous = e.key === 'ArrowLeft';
+
+      if (next && showRightArrow) {
+        this.send('changePhoto', 'next');
+      }
+
+      if (previous && showLeftArrow) {
+        this.send('changePhoto', 'previous');
+      }
+    },
+
+    willInsertElement() {
+      this._super(...arguments);
+
+      window.addEventListener('keydown', this.get('changePhotoOnKeyPress'), false);
+    },
+
+    willDestroyElement() {
+      this._super(...arguments);
+
+      window.removeEventListener('keydown', this.get('changePhotoOnKeyPress'), false);
+    },
+
+    actions: {
+      changePhoto(direction) {
+        this.changePhoto(direction, this.get('index'));
+      }
+
+    }
+  });
 
   _exports.default = _default;
 });
@@ -982,8 +1004,8 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "tWaVeOQo",
-    "block": "{\"symbols\":[\"modal\"],\"statements\":[[4,\"bs-modal\",null,[[\"open\",\"title\",\"size\",\"onHidden\"],[[24,[\"showModal\"]],[24,[\"modalTitle\"]],\"lg\",[28,\"action\",[[23,0,[]],[28,\"mut\",[[24,[\"showModal\"]]],null],false],null]]],{\"statements\":[[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"header\"]],\"expected `modal.header` to be a contextual component but found a string. Did you mean `(component modal.header)`? ('ghgsdr/components/image-modal/template.hbs' @ L8:C7) \"],null]],null,{\"statements\":[[0,\"        \"],[1,[22,\"modalTitle\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"body\"]],\"expected `modal.body` to be a contextual component but found a string. Did you mean `(component modal.body)`? ('ghgsdr/components/image-modal/template.hbs' @ L11:C7) \"],null]],null,{\"statements\":[[0,\"        \"],[7,\"img\",true],[11,\"src\",[22,\"modalImageUrl\"]],[8],[9],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"footer\"]],\"expected `modal.footer` to be a contextual component but found a string. Did you mean `(component modal.footer)`? ('ghgsdr/components/image-modal/template.hbs' @ L14:C7) \"],null]],null,{\"statements\":[[4,\"bs-button\",null,[[\"onClick\"],[[28,\"action\",[[23,0,[]],[23,1,[\"close\"]]],null]]],{\"statements\":[[0,\"            Close\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}",
+    "id": "bBHvd8nJ",
+    "block": "{\"symbols\":[\"modal\"],\"statements\":[[4,\"bs-modal\",null,[[\"open\",\"title\",\"size\",\"onHidden\"],[[24,[\"showModal\"]],[24,[\"modalTitle\"]],\"lg\",[28,\"action\",[[23,0,[]],[28,\"mut\",[[24,[\"showModal\"]]],null],false],null]]],{\"statements\":[[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"header\"]],\"expected `modal.header` to be a contextual component but found a string. Did you mean `(component modal.header)`? ('ghgsdr/components/image-modal/template.hbs' @ L8:C7) \"],null]],null,{\"statements\":[[0,\"        \"],[1,[22,\"modalTitle\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"body\"]],\"expected `modal.body` to be a contextual component but found a string. Did you mean `(component modal.body)`? ('ghgsdr/components/image-modal/template.hbs' @ L11:C7) \"],null]],null,{\"statements\":[[0,\"        \"],[7,\"div\",true],[10,\"class\",\"d-flex change-images justify-content-between\"],[8],[0,\"\\n            \"],[7,\"button\",true],[11,\"class\",[29,[\"btn \",[28,\"if\",[[24,[\"showLeftArrow\"]],\"visible\"],null]]]],[10,\"title\",\"previous\"],[11,\"onclick\",[28,\"action\",[[23,0,[]],\"changePhoto\",\"previous\"],null]],[8],[0,\"\\n\"],[4,\"if\",[[24,[\"showLeftArrow\"]]],null,{\"statements\":[[0,\"                    \"],[1,[28,\"fa-icon\",null,[[\"icon\"],[\"arrow-left\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[9],[0,\"\\n            \"],[7,\"button\",true],[11,\"class\",[29,[\"btn \",[28,\"if\",[[24,[\"showRightArrow\"]],\"visible\"],null]]]],[10,\"title\",\"next\"],[11,\"onclick\",[28,\"action\",[[23,0,[]],\"changePhoto\",\"next\"],null]],[8],[0,\"\\n\"],[4,\"if\",[[24,[\"showRightArrow\"]]],null,{\"statements\":[[0,\"                    \"],[1,[28,\"fa-icon\",null,[[\"icon\"],[\"arrow-right\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"            \"],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[7,\"img\",true],[11,\"src\",[22,\"modalImageUrl\"]],[8],[9],[0,\"\\n\\n\"]],\"parameters\":[]},null],[4,\"component\",[[28,\"-assert-implicit-component-helper-argument\",[[23,1,[\"footer\"]],\"expected `modal.footer` to be a contextual component but found a string. Did you mean `(component modal.footer)`? ('ghgsdr/components/image-modal/template.hbs' @ L27:C7) \"],null]],null,{\"statements\":[[4,\"bs-button\",null,[[\"onClick\"],[[28,\"action\",[[23,0,[]],[23,1,[\"close\"]]],null]]],{\"statements\":[[0,\"            Close\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}",
     "meta": {
       "moduleName": "ghgsdr/components/image-modal/template.hbs"
     }
@@ -1345,33 +1367,38 @@
       return youTubeURLS && youTubeURLS.length > 0;
     }),
     actions: {
-      launchModal(dogName, imageUrl, index) {
-        gtag('event', `${dogName}__image-${index}-clicked`, {
+      launchModal(imageUrl, photoIndex) {
+        const model = this.get('model');
+        const {
+          images,
+          name
+        } = model.getProperties('images', 'name');
+        gtag('event', `${name}__image-${photoIndex}-clicked`, {
           'event_category': 'engagement',
           'event_label': imageUrl,
-          'value': index
+          'value': photoIndex
         });
         this.setProperties({
-          showModal: true,
+          imageList: images,
+          photoIndex,
           modalImageUrl: imageUrl,
-          modalTitle: dogName
+          modalTitle: name,
+          showModal: true
+        });
+      },
+
+      changePhoto(direction, currentIndex) {
+        const imageList = this.get('model.images');
+        const newIndex = direction === 'previous' ? currentIndex - 1 : currentIndex + 1;
+        const newImage = imageList.objectAt(newIndex);
+        this.setProperties({
+          photoIndex: newIndex,
+          modalImageUrl: newImage.get('url')
         });
       }
 
     }
   });
-
-  _exports.default = _default;
-});
-;define("ghgsdr/controllers/export", ["exports"], function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = Ember.Controller.extend({});
 
   _exports.default = _default;
 });
@@ -2438,27 +2465,17 @@
     youTubeURLS: _emberData.default.attr({
       async: false
     })
-  });
+    /*
+        meta: DS.attr(),
+        hw_status: DS.attr('string'),
+        current_location: DS.attr('string'),
+        app_foster_date: DS.attr('date'),
+        hw_treatment_date: DS.attr('date'),
+        days_in_rescue: DS.attr('number'),
+        app_adoption_date: DS.attr('date'),
+        to_foster_date: DS.attr('date'),
+    */
 
-  _exports.default = _default;
-});
-;define("ghgsdr/models/export", ["exports", "ember-data", "ghgsdr/models/dog"], function (_exports, _emberData, _dog) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = _dog.default.extend({
-    meta: _emberData.default.attr(),
-    hw_status: _emberData.default.attr('string'),
-    current_location: _emberData.default.attr('string'),
-    app_foster_date: _emberData.default.attr('date'),
-    hw_treatment_date: _emberData.default.attr('date'),
-    days_in_rescue: _emberData.default.attr('number'),
-    app_adoption_date: _emberData.default.attr('date'),
-    to_foster_date: _emberData.default.attr('date')
   });
 
   _exports.default = _default;
@@ -2540,7 +2557,6 @@
     this.route('dog', {
       path: '/:id'
     });
-    this.route('export');
     this.route('happy-tails');
   });
   var _default = Router;
@@ -2583,55 +2599,6 @@
       }
 
     }
-  });
-
-  _exports.default = _default;
-});
-;define("ghgsdr/routes/export", ["exports", "jquery"], function (_exports, _jquery) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = Ember.Route.extend({
-    store: Ember.inject.service(),
-
-    model() {
-      const controller = this.controllerFor('index');
-      controller.set('loading', true);
-      return Ember.RSVP.hash({
-        intake: this.store.query('export', {
-          type: 'intake'
-        }),
-        fostered: this.store.query('export', {
-          type: 'fostered'
-        }),
-        adopted: this.store.query('export', {
-          type: 'adopted'
-        })
-      });
-    },
-
-    afterModel() {
-      (0, _jquery.default)(document).attr('title', `Dog Stats - GHGSDR`);
-      const controller = this.controllerFor('index');
-      (0, _jquery.default)("#initialPageLoading").remove();
-      controller.set('loading', false);
-    },
-
-    setupController(controller, model) {
-      controller.setProperties({
-        pendingAdoption: model.fostered.filterBy('status', 'Pending Adoption'),
-        intake: model.intake,
-        fostered: model.fostered.filterBy('status', 'Fostered'),
-        adopted: model.adopted.filter(dog => {
-          return dog.get('app_adoption_date').getUTCFullYear() === 2021;
-        }).sortBy('app_adoption_date').reverse()
-      });
-    }
-
   });
 
   _exports.default = _default;
@@ -2769,19 +2736,20 @@
     },
 
     normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-      const dogs = payload.collection // To include/filter out puppies comment or uncomment this line
-      .filter(dog => {
-        const dob = new Date(dog.date_of_birth);
-        const today = new Date();
-        const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
-        return dob <= sixMonthsAgo;
-      });
+      const dogs = payload.collection; // To include/filter out puppies comment or uncomment this line
+      // .filter((dog) => {
+      //     const dob = new Date(dog.date_of_birth);
+      //     const today = new Date();
+      //     const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
+      //     return dob <= sixMonthsAgo;
+      // });
+
       return this._super(store, primaryModelClass, dogs, id, requestType);
     },
 
     normalize(typeClass, hash) {
       const modifiedHash = hash;
-      const isPendingAdoption = hash.status === 'Pending Adoption';
+      const isPendingAdoption = hash.status.includes('Pending Adoption');
       modifiedHash.description = modifiedHash.description.match(/<p>.*?<\/p>/g) || ["<p>I don't have a bio yet, but keep checking back for more details about me!</p>"];
       modifiedHash.pet_attributes.push({
         name: 'Sex',
@@ -2913,64 +2881,6 @@
 
   _exports.default = _default;
 });
-;define("ghgsdr/serializers/export", ["exports", "ember-data", "ember-data/serializers/embedded-records-mixin"], function (_exports, _emberData, _embeddedRecordsMixin) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = _emberData.default.JSONSerializer.extend(_embeddedRecordsMixin.default, {
-    attrs: {
-      images: {
-        embedded: 'always'
-      },
-      pet_attributes: {
-        embedded: 'always'
-      }
-    },
-
-    modelNameFromPayloadKey() {
-      return `export`;
-    },
-
-    normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-      const newPayload = payload.collection;
-      newPayload[0].meta = payload.pagination;
-      return this._super(store, primaryModelClass, newPayload, id, requestType);
-    },
-
-    normalize(modelClass, resourceHash) {
-      const modifiedHash = resourceHash;
-      const hwStat = modifiedHash.pet_attributes.find(attr => attr.name === 'Heartworm Status');
-      const hwTreatmentDate = modifiedHash.pet_attributes.find(attr => attr.name === 'HW Treatment Start Date');
-      modifiedHash.hw_status = hwStat.value;
-      modifiedHash.hw_treatment_date = hwStat.value === 'Positive' || hwStat.value === 'Treated' ? hwTreatmentDate && hwTreatmentDate.value ? hwTreatmentDate.value : 'need date' : null;
-      modifiedHash.current_location = modifiedHash.current_location.split(',')[0];
-
-      if (resourceHash.status === 'Adopted') {
-        modifiedHash.days_in_rescue = Math.floor((new Date(modifiedHash.app_adoption_date) - new Date(modifiedHash.date_aquired)) / (60 * 60 * 24 * 1000));
-      } else {
-        modifiedHash.days_in_rescue = Math.floor((new Date() - new Date(modifiedHash.date_aquired)) / (60 * 60 * 24 * 1000));
-      }
-
-      if (resourceHash.status === 'Boarding') {
-        modifiedHash.to_foster_date = new Date();
-        modifiedHash.to_foster_date = modifiedHash.to_foster_date.toUTCString();
-      } else if (resourceHash.status === 'Treatment' && new Date(modifiedHash.hw_treatment_date)) {
-        const date = new Date(modifiedHash.hw_treatment_date);
-        date.setDate(date.getDate() + 30);
-        modifiedHash.to_foster_date = date.toUTCString();
-      }
-
-      return this._super(modelClass, modifiedHash);
-    }
-
-  });
-
-  _exports.default = _default;
-});
 ;define("ghgsdr/serializers/image", ["exports", "ember-data"], function (_exports, _emberData) {
   "use strict";
 
@@ -3089,28 +2999,10 @@
   _exports.default = void 0;
 
   var _default = Ember.HTMLBars.template({
-    "id": "ELk2uqxF",
-    "block": "{\"symbols\":[\"url\",\"index\",\"bio\",\"image\",\"index\"],\"statements\":[[4,\"if\",[[24,[\"loading\"]]],null,{\"statements\":[[0,\"    \"],[1,[22,\"loader\"],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[1,[28,\"navbar\",null,[[\"title\",\"hideFilter\",\"bigName\"],[[24,[\"model\",\"name\"]],true,true]]],false],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"image-gallery\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"model\",\"images\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\",true],[10,\"class\",\"image-container\"],[8],[0,\"\\n                \"],[7,\"img\",true],[11,\"src\",[23,4,[\"url\"]]],[11,\"alt\",[24,[\"model\",\"name\"]]],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"launchModal\",[24,[\"model\",\"name\"]],[23,4,[\"url\"]],[23,5,[]]],null]],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[4,5]},null],[0,\"    \"],[9],[0,\"\\n\\n    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"go-back\"],[8],[0,\"\\n\"],[4,\"link-to\",null,[[\"route\"],[\"index\"]],{\"statements\":[[0,\"                Go Back to All Dogs\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\\n    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"col-12 col-md-6 col-lg-4\"],[8],[0,\"\\n            \"],[7,\"table\",true],[10,\"class\",\"table table-striped border\"],[8],[0,\"\\n                \"],[7,\"tbody\",true],[8],[0,\"\\n                    \"],[1,[28,\"pet-attributes\",null,[[\"attributes\",\"showIcon\"],[[24,[\"model\",\"pet_attributes\"]],false]]],false],[0,\"\\n                \"],[9],[0,\"\\n            \"],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"bio col-12 col-md-6 col-lg-8\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"htmlSafeBios\"]]],null,{\"statements\":[[0,\"                \"],[1,[23,3,[]],false],[0,\"\\n\"]],\"parameters\":[3]},null],[4,\"if\",[[24,[\"showVideos\"]]],null,{\"statements\":[[4,\"each\",[[24,[\"model\",\"youTubeURLS\"]]],null,{\"statements\":[[0,\"                    \"],[7,\"div\",true],[10,\"class\",\"video-container\"],[8],[0,\"\\n                        \"],[7,\"iframe\",true],[11,\"id\",[29,[[24,[\"model\",\"name\"]],\"-\",[23,2,[]]]]],[10,\"class\",\"video\"],[11,\"src\",[23,1,[]]],[11,\"title\",[24,[\"model\",\"name\"]]],[10,\"frameborder\",\"0\"],[10,\"allow\",\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"],[10,\"allowfullscreen\",\"\"],[8],[0,\"\\n                        \"],[9],[0,\"\\n                    \"],[9],[0,\"\\n\"]],\"parameters\":[1,2]},null]],\"parameters\":[]},null],[0,\"            \"],[7,\"p\",true],[8],[0,\"Information last updated: \"],[1,[24,[\"model\",\"updated_at\"]],false],[9],[0,\"\\n\\n        \"],[9],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"go-back\"],[8],[0,\"\\n\"],[4,\"link-to\",null,[[\"route\"],[\"index\"]],{\"statements\":[[0,\"                Go Back to All Dogs\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\\n\"],[4,\"if\",[[24,[\"showModal\"]]],null,{\"statements\":[[0,\"        \"],[1,[28,\"image-modal\",null,[[\"showModal\",\"modalTitle\",\"modalImageUrl\",\"isVideo\"],[[24,[\"showModal\"]],[24,[\"modalTitle\"]],[24,[\"modalImageUrl\"]],[24,[\"isVideo\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"hasEval\":false}",
+    "id": "LSIgLCKY",
+    "block": "{\"symbols\":[\"url\",\"index\",\"bio\",\"image\",\"index\"],\"statements\":[[4,\"if\",[[24,[\"loading\"]]],null,{\"statements\":[[0,\"    \"],[1,[22,\"loader\"],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[1,[28,\"navbar\",null,[[\"title\",\"hideFilter\",\"bigName\"],[[24,[\"model\",\"name\"]],true,true]]],false],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"image-gallery\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"model\",\"images\"]]],null,{\"statements\":[[0,\"            \"],[7,\"div\",true],[10,\"class\",\"image-container\"],[8],[0,\"\\n                \"],[7,\"img\",true],[11,\"src\",[23,4,[\"url\"]]],[11,\"alt\",[24,[\"model\",\"name\"]]],[11,\"onClick\",[28,\"action\",[[23,0,[]],\"launchModal\",[23,4,[\"url\"]],[23,5,[]]],null]],[8],[9],[0,\"\\n            \"],[9],[0,\"\\n\"]],\"parameters\":[4,5]},null],[0,\"    \"],[9],[0,\"\\n\\n    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"go-back\"],[8],[0,\"\\n\"],[4,\"link-to\",null,[[\"route\"],[\"index\"]],{\"statements\":[[0,\"                Go Back to All Dogs\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\\n    \"],[7,\"div\",true],[10,\"class\",\"row\"],[8],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"col-12 col-md-6 col-lg-4\"],[8],[0,\"\\n            \"],[7,\"table\",true],[10,\"class\",\"table table-striped border\"],[8],[0,\"\\n                \"],[7,\"tbody\",true],[8],[0,\"\\n                    \"],[1,[28,\"pet-attributes\",null,[[\"attributes\",\"showIcon\"],[[24,[\"model\",\"pet_attributes\"]],false]]],false],[0,\"\\n                \"],[9],[0,\"\\n            \"],[9],[0,\"\\n        \"],[9],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"bio col-12 col-md-6 col-lg-8\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"htmlSafeBios\"]]],null,{\"statements\":[[0,\"                \"],[1,[23,3,[]],false],[0,\"\\n\"]],\"parameters\":[3]},null],[4,\"if\",[[24,[\"showVideos\"]]],null,{\"statements\":[[4,\"each\",[[24,[\"model\",\"youTubeURLS\"]]],null,{\"statements\":[[0,\"                    \"],[7,\"div\",true],[10,\"class\",\"video-container\"],[8],[0,\"\\n                        \"],[7,\"iframe\",true],[11,\"id\",[29,[[24,[\"model\",\"name\"]],\"-\",[23,2,[]]]]],[10,\"class\",\"video\"],[11,\"src\",[23,1,[]]],[11,\"title\",[24,[\"model\",\"name\"]]],[10,\"frameborder\",\"0\"],[10,\"allow\",\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"],[10,\"allowfullscreen\",\"\"],[8],[0,\"\\n                        \"],[9],[0,\"\\n                    \"],[9],[0,\"\\n\"]],\"parameters\":[1,2]},null]],\"parameters\":[]},null],[0,\"            \"],[7,\"p\",true],[8],[0,\"Information last updated: \"],[1,[24,[\"model\",\"updated_at\"]],false],[9],[0,\"\\n\\n        \"],[9],[0,\"\\n        \"],[7,\"div\",true],[10,\"class\",\"go-back\"],[8],[0,\"\\n\"],[4,\"link-to\",null,[[\"route\"],[\"index\"]],{\"statements\":[[0,\"                Go Back to All Dogs\\n\"]],\"parameters\":[]},null],[0,\"        \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\\n\"],[4,\"if\",[[24,[\"showModal\"]]],null,{\"statements\":[[0,\"        \"],[1,[28,\"image-modal\",null,[[\"changePhoto\",\"imageList\",\"index\",\"isVideo\",\"modalImageUrl\",\"modalTitle\",\"showModal\"],[[28,\"action\",[[23,0,[]],\"changePhoto\"],null],[24,[\"model\",\"images\"]],[24,[\"photoIndex\"]],[24,[\"isVideo\"]],[24,[\"modalImageUrl\"]],[24,[\"modalTitle\"]],[24,[\"showModal\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"hasEval\":false}",
     "meta": {
       "moduleName": "ghgsdr/templates/dog.hbs"
-    }
-  });
-
-  _exports.default = _default;
-});
-;define("ghgsdr/templates/export", ["exports"], function (_exports) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  _exports.default = void 0;
-
-  var _default = Ember.HTMLBars.template({
-    "id": "ql08UGbM",
-    "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"class\",\"divider\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[0,\"Boarding/Treatment\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"table-responsive\"],[8],[0,\"\\n    \"],[1,[28,\"table\",null,[[\"dogs\",\"locationName\",\"status\"],[[24,[\"intake\"]],\"Location\",\"To Foster\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\\n\"],[7,\"div\",true],[10,\"class\",\"divider\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[0,\"Fostered\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[1,[28,\"table\",null,[[\"dogs\",\"locationName\",\"status\"],[[24,[\"fostered\"]],\"Foster\",\"Foster\"]]],false],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"divider\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[0,\"Pending Adoption\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[1,[28,\"table\",null,[[\"dogs\",\"locationName\",\"status\"],[[24,[\"pendingAdoption\"]],\"Foster\",\"Foster\"]]],false],[0,\"\\n\"],[7,\"div\",true],[10,\"class\",\"divider\"],[8],[0,\"\\n    \"],[7,\"h1\",true],[8],[0,\"Adopted\"],[9],[0,\"\\n\"],[9],[0,\"\\n\"],[1,[28,\"table\",null,[[\"dogs\",\"locationName\",\"status\"],[[24,[\"adopted\"]],\"Adopter\",\"Adoption\"]]],false]],\"hasEval\":false}",
-    "meta": {
-      "moduleName": "ghgsdr/templates/export.hbs"
     }
   });
 
@@ -3175,7 +3067,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+a09b770c"});
+            require("ghgsdr/app")["default"].create({"name":"ghgsdr","version":"0.0.0+2f30fc0e"});
           }
         
 //# sourceMappingURL=ghgsdr.map

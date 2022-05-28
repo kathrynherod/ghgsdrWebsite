@@ -12,7 +12,7 @@
                 <img
                     src={{image.url}}
                     alt={{model.name}}
-                    onClick={{action "launchModal" model.name image.url index}}
+                    onClick={{action "launchModal" image.url index}}
                 >
             </div>
         {{/each}}
@@ -68,10 +68,13 @@
 
     {{#if showModal}}
         {{image-modal
-            showModal=showModal
-            modalTitle=modalTitle
-            modalImageUrl=modalImageUrl
+            changePhoto=(action "changePhoto")
+            imageList=model.images
+            index=photoIndex
             isVideo=isVideo
+            modalImageUrl=modalImageUrl
+            modalTitle=modalTitle
+            showModal=showModal
         }}
     {{/if}}
 {{/if}}

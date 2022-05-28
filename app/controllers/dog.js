@@ -21,16 +21,32 @@ export default Controller.extend({
     }),
 
     actions: {
-        launchModal(dogName, imageUrl, index) {
-            gtag('event', `${dogName}__image-${index}-clicked`, {
+        launchModal(imageUrl, photoIndex) {
+            const model = this.get('model');
+            const {images, name } = model.getProperties('images', 'name');
+
+            gtag('event', `${name}__image-${photoIndex}-clicked`, {
                 'event_category': 'engagement',
                 'event_label': imageUrl,
-                'value': index,
+                'value': photoIndex,
             });
             this.setProperties({
-                showModal: true,
+                imageList: images,
+                photoIndex,
                 modalImageUrl: imageUrl,
-                modalTitle: dogName,
+                modalTitle: name,
+                showModal: true,
+            });
+        },
+
+        changePhoto(direction, currentIndex) {
+            const imageList = this.get('model.images');
+            const newIndex = direction === 'previous' ? currentIndex - 1 : currentIndex + 1;
+            const newImage = imageList.objectAt(newIndex);
+
+            this.setProperties({
+                photoIndex: newIndex,
+                modalImageUrl: newImage.get('url'),
             });
         },
     },

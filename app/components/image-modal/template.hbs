@@ -9,7 +9,20 @@
         {{modalTitle}}
     {{/modal.header}}
     {{#modal.body}}
+        <div class="d-flex change-images justify-content-between">
+            <button class="btn {{if showLeftArrow "visible"}}" title="previous" onclick={{action "changePhoto" "previous"}}>
+                {{#if showLeftArrow}}
+                    {{fa-icon icon="arrow-left"}}
+                {{/if}}
+            </button>
+            <button class="btn {{if showRightArrow "visible"}}" title="next" onclick={{action "changePhoto" "next"}}>
+                {{#if showRightArrow}}
+                    {{fa-icon icon="arrow-right"}}
+                {{/if}}
+            </button>
+        </div>
         <img src={{modalImageUrl}}/>
+
     {{/modal.body}}
     {{#modal.footer}}
         {{#bs-button

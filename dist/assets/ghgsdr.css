@@ -10282,6 +10282,14 @@ table th, table td {
 .modal-lg .modal-body {
   align-self: center;
 }
+.modal-lg .modal-body .change-images {
+  margin-bottom: 0.5rem;
+}
+.modal-lg .modal-body .change-images button.visible {
+  background-color: #002b55;
+  border-radius: 50%;
+  color: white;
+}
 .modal-lg .modal-body img {
   max-height: 100%;
   max-width: 100%;

@@ -8,10 +8,6 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
     assert.expect(1);
     assert.ok(true, 'adapters/dog.js should pass ESLint\n\n');
   });
-  QUnit.test('adapters/export.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'adapters/export.js should pass ESLint\n\n');
-  });
   QUnit.test('app.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'app.js should pass ESLint\n\n');
@@ -58,11 +54,7 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('controllers/dog.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/dog.js should pass ESLint\n\n25:13 - \'gtag\' is not defined. (no-undef)');
-  });
-  QUnit.test('controllers/export.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'controllers/export.js should pass ESLint\n\n');
+    assert.ok(false, 'controllers/dog.js should pass ESLint\n\n28:13 - \'gtag\' is not defined. (no-undef)');
   });
   QUnit.test('controllers/happy-tails.js', function (assert) {
     assert.expect(1);
@@ -75,10 +67,6 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
   QUnit.test('models/dog.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'models/dog.js should pass ESLint\n\n');
-  });
-  QUnit.test('models/export.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'models/export.js should pass ESLint\n\n');
   });
   QUnit.test('models/image.js', function (assert) {
     assert.expect(1);
@@ -104,10 +92,6 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
     assert.expect(1);
     assert.ok(true, 'routes/dog.js should pass ESLint\n\n');
   });
-  QUnit.test('routes/export.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'routes/export.js should pass ESLint\n\n');
-  });
   QUnit.test('routes/happy-tails.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'routes/happy-tails.js should pass ESLint\n\n');
@@ -119,10 +103,6 @@ define("ghgsdr/tests/lint/app.lint-test", [], function () {
   QUnit.test('serializers/dog.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'serializers/dog.js should pass ESLint\n\n');
-  });
-  QUnit.test('serializers/export.js', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'serializers/export.js should pass ESLint\n\n');
   });
   QUnit.test('serializers/image.js', function (assert) {
     assert.expect(1);
@@ -180,10 +160,6 @@ define("ghgsdr/tests/lint/templates.template.lint-test", [], function () {
   QUnit.test('ghgsdr/templates/dog.hbs', function (assert) {
     assert.expect(1);
     assert.ok(true, 'ghgsdr/templates/dog.hbs should pass TemplateLint.\n\n');
-  });
-  QUnit.test('ghgsdr/templates/export.hbs', function (assert) {
-    assert.expect(1);
-    assert.ok(true, 'ghgsdr/templates/export.hbs should pass TemplateLint.\n\n');
   });
   QUnit.test('ghgsdr/templates/happy-tails.hbs', function (assert) {
     assert.expect(1);

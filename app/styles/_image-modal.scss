@@ -1,7 +1,16 @@
 .modal-lg {
-
     .modal-body {
         align-self: center;
+
+        .change-images {
+            margin-bottom: 0.5rem;
+
+            button.visible {
+                background-color: $ghgsdrBlue;
+                border-radius: 50%;
+                color: white;
+            }
+        }
 
         img {
             max-height: 100%;
